@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国語入門 クイズ（HSK形式・趣味性あり）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f4f6fb; --surface: #ffffff; --sidebar-bg: #1e2235; --sidebar-w: 268px;
+      --primary: #c0392b; --accent: #e67e22; --green: #27ae60; --orange: #d35400;
+      --purple: #8e44ad; --teal: #16a085; --red: #c0392b; --blue: #2980b9;
+      --text: #1e1e2e; --muted: #6b7280; --border: #e5e7eb;
+      --radius: 12px; --shadow: 0 2px 14px rgba(0,0,0,.08);
+      --correct: #27ae60; --wrong: #e74c3c;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; display: flex; min-height: 100vh; }
+    .sidebar { width: var(--sidebar-w); min-width: var(--sidebar-w); background: var(--sidebar-bg); color: #c8cfe8; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; z-index: 100; }
+    .sidebar-header { padding: 1.4rem 1.4rem .9rem; border-bottom: 1px solid #2e3554; }
+    .sidebar-header .flags { font-size: 1.4rem; margin-bottom: .3rem; }
+    .sidebar-header h1 { font-size: .9rem; font-weight: 800; color: #fff; line-height: 1.4; }
+    .sidebar-header p { font-size: .7rem; color: #7a85a8; margin-top: .2rem; }
+    .toc-section-label { padding: .8rem 1.4rem .25rem; font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #4a5580; }
+    .toc-item { display: flex; align-items: center; gap: .5rem; padding: .38rem 1.4rem; font-size: .78rem; color: #9aa3c4; text-decoration: none; border-left: 3px solid transparent; transition: background .15s, color .15s; }
+    .toc-item:hover, .toc-item.active { background: #272d45; color: #fff; border-left-color: var(--primary); }
+    .toc-item .num { font-size: .65rem; background: #2e3554; color: #6a75a4; border-radius: 4px; padding: .08rem .3rem; font-weight: 700; min-width: 22px; text-align: center; flex-shrink: 0; }
+    .toc-item.active .num { background: var(--primary); color: #fff; }
+    .sidebar-legend { margin: 1rem 1.4rem .8rem; background: #272d45; border-radius: 8px; padding: .65rem .9rem; font-size: .72rem; }
+    .sidebar-legend p { color: #6a75a4; margin-bottom: .35rem; font-weight: 700; }
+    .legend-item { display: flex; align-items: center; gap: .4rem; margin: .2rem 0; color: #9aa3c4; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .main { flex: 1; padding: 2rem 1.8rem 4rem; max-width: 920px; min-width: 0; }
+    .page-title { margin-bottom: 2rem; }
+    .page-title h2 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-title p { color: var(--muted); font-size: .9rem; margin-top: .3rem; }
+    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.6rem 1.8rem; margin-bottom: 2rem; border-top: 4px solid var(--primary); scroll-margin-top: 1.5rem; }
+    .card.c-green { border-top-color: var(--green); } .card.c-orange { border-top-color: var(--orange); }
+    .card.c-purple { border-top-color: var(--purple); } .card.c-pink { border-top-color: var(--accent); }
+    .card.c-teal { border-top-color: var(--teal); } .card.c-blue { border-top-color: var(--blue); }
+    .unit-header { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; margin-bottom: .8rem; }
+    .unit-num { font-size: .72rem; font-weight: 800; background: var(--bg); color: var(--muted); border-radius: 6px; padding: .12rem .5rem; }
+    .unit-title { font-size: 1.05rem; font-weight: 800; }
+    .unit-title .zh-sub { font-size: .88rem; color: var(--primary); font-weight: 700; margin-left: .3rem; }
+    .tip { background: #fffbe6; border: 1px solid #fde68a; border-radius: 8px; padding: .55rem 1rem; font-size: .86rem; color: #92400e; margin-bottom: .8rem; }
+    .tip::before { content: "💡 "; }
+    .trivia-box { background: linear-gradient(135deg, #fff5f5 0%, #ffe8ec 100%); border: 1.5px solid #f5b7c8; border-radius: 10px; padding: .75rem 1rem; margin: .75rem 0; font-size: .86rem; line-height: 1.75; }
+    .trivia-box-title { font-size: .74rem; font-weight: 800; color: #c0392b; margin-bottom: .35rem; }
+    .badge { display: inline-block; padding: .1rem .45rem; border-radius: 20px; font-size: .68rem; font-weight: 700; background: var(--primary); color: #fff; }
+    .badge.green { background: var(--green); } .badge.orange { background: var(--orange); }
+    .badge.purple { background: var(--purple); } .badge.teal { background: var(--teal); } .badge.blue { background: var(--blue); } .badge.muted { background: var(--muted); }
+    .jp-box { background: var(--jp-bg); border: 1.5px solid var(--jp-border); border-radius: 10px; padding: .9rem 1.1rem; margin: .8rem 0; }
+    .cn-box { background: linear-gradient(135deg, #fef9e7 0%, #fdf2e9 100%); border: 1.5px solid #f0c27a; border-radius: 10px; padding: .9rem 1.1rem; margin: .8rem 0; }
+    .toc-fab { display: none; position: fixed; bottom: 1.15rem; right: 1.15rem; z-index: 200; align-items: center; gap: .35rem; padding: .55rem .95rem; border: none; border-radius: 999px; background: var(--sidebar-bg); color: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.28); }
+    .toc-backdrop { display: none; position: fixed; inset: 0; background: rgba(15,18,30,.5); z-index: 150; opacity: 0; transition: opacity .22s ease; }
+    .sidebar-close { display: none; position: absolute; top: .65rem; right: .65rem; width: 2rem; height: 2rem; border: none; border-radius: 8px; background: #2e3554; color: #c8cfe8; font-size: 1.1rem; cursor: pointer; }
+    @media (max-width: 900px) { body { flex-direction: column; } body.toc-open { overflow: hidden; }
+      .toc-fab { display: flex; } .toc-backdrop { display: block; pointer-events: none; }
+      body.toc-open .toc-backdrop { opacity: 1; pointer-events: auto; }
+      .sidebar { width: min(288px, 88vw); position: fixed; top: 0; left: 0; z-index: 160; transform: translateX(-110%); transition: transform .25s ease; box-shadow: 4px 0 28px rgba(0,0,0,.22); }
+      body.toc-open .sidebar { transform: translateX(0); } .sidebar-close { display: block; }
+      .main { padding: 1.2rem 1rem 4.75rem; width: 100%; }
+    }
+    .quiz-q { font-size: .95rem; font-weight: 700; margin: 1rem 0 .5rem; }
+    .quiz-q .q-num { color: var(--primary); font-weight: 800; }
+    .quiz-options { margin: .5rem 0 1rem; display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important; width: 100% !important; }
+    .quiz-opt { display: block !important; width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; padding: .5rem .8rem; margin: .3rem 0; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s; font-size: .88rem; box-sizing: border-box; float: none !important; clear: both !important; }
+    .quiz-opt input[type="radio"] { display: inline !important; position: static !important; margin-right: .5rem; }
+    .quiz-opt:hover { background: #f0f4ff; border-color: #b8c9f0; }
+    .quiz-opt.correct { background: #e8f8e8; border-color: var(--correct); color: #1a7a1a; }
+    .quiz-opt.wrong { background: #fde8e8; border-color: var(--wrong); color: #a02020; }
+    .answer-reveal { display: none; background: #e8f8e8; border: 1.5px solid #a8d8a8; border-radius: 8px; padding: .6rem .9rem; margin: .5rem 0; font-size: .86rem; }
+    .answer-reveal.show { display: block; }
+    .answer-reveal .ans-label { font-weight: 800; color: var(--correct); }
+    .vocab-note { background: #fffbe6; border-left: 3px solid #f0c27a; padding: .35rem .65rem; margin: .3rem 0; font-size: .8rem; color: #7a6000; border-radius: 0 6px 6px 0; }
+    .vocab-note::before { content: "📖 "; }
+    .score-panel { background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%); border: 1.5px solid #b8c9f0; border-radius: 10px; padding: 1rem 1.3rem; margin: 1.5rem 0; text-align: center; }
+    .score-panel .score-num { font-size: 2.2rem; font-weight: 900; color: var(--primary); }
+    .score-panel .score-label { font-size: .8rem; color: var(--muted); }
+    .btn-check { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: .45rem 1rem; font-size: .82rem; font-weight: 700; cursor: pointer; margin: .5rem 0; transition: background .15s; }
+    .btn-check:hover { background: #1e8e4e; }
+    .scenario-box { background: #f8f0ff; border: 1.5px solid #d8b8f0; border-radius: 10px; padding: .85rem 1.1rem; margin: .6rem 0; font-size: .88rem; line-height: 1.8; }
+    .scenario-title { font-size: .76rem; font-weight: 800; color: var(--purple); margin-bottom: .4rem; }
+  </style>
+</head>
+<body>
+<button type="button" class="toc-fab" id="tocFab" aria-label="目次を開く">☰ 目次</button>
+<div class="toc-backdrop" id="tocBackdrop" aria-hidden="true"></div>
+<nav class="sidebar" id="sidebar" aria-label="目次">
+  <button type="button" class="sidebar-close" id="tocClose">×</button>
+  <div class="sidebar-header"><div class="flags">🎯 🇨🇳</div><h1>中国語クイズ<br>HSK形式 × 趣味性</h1><p>単語・文法ユニット対応</p></div>
+  <div class="toc-section-label">クイズチャプター</div>
+  <a href="#q1" class="toc-item"><span class="num">1</span>自己紹介</a>
+  <a href="#q2" class="toc-item"><span class="num">2</span>国籍＆疑問文</a>
+  <a href="#q3" class="toc-item"><span class="num">3</span>家族樹パズル</a>
+  <a href="#q4" class="toc-item"><span class="num">4</span>時間＆数字</a>
+  <a href="#q5" class="toc-item"><span class="num">5</span>程度＆場所</a>
+  <a href="#q6" class="toc-item"><span class="num">6</span>方向＆交通</a>
+  <a href="#q7" class="toc-item"><span class="num">7</span>レストラン</a>
+  <a href="#q8" class="toc-item"><span class="num">8</span>色＆日用品</a>
+  <a href="#q9" class="toc-item"><span class="num">9</span>核心動詞</a>
+  <a href="#q10" class="toc-item"><span class="num">10</span>感情推測</a>
+  <a href="#q11" class="toc-item"><span class="num">11</span>天気＆接続詞</a>
+  <a href="#q12" class="toc-item"><span class="num">12</span>最終脱出ゲーム</a>
+  <div class="sidebar-legend">
+    <p>記号凡例</p>
+    <div class="legend-item"><span class="legend-dot" style="background:#27ae60"></span> ✅ = 正解</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#e74c3c"></span> ❌ = 不正解</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#f39c12"></span> 📖 = 語彙注釈</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#8e44ad"></span> 🎭 = シナリオ</div>
+  </div>
+</nav>
+<main class="main">
+  <div class="page-title"><h2>🎯 中国語クイズ</h2><p>HSK形式の問題ですが、ストーリー仕立てで楽しく解けます！各チャプターの冒頭に「先に勉強すべきユニット」を表示しています。</p></div>
+
+<section class="card c-red" id="q1">
+  <div class="unit-header"><span class="unit-num">Chapter 1</span><span class="unit-title">自己紹介クイズ<span class="zh-sub">自我介绍</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 1（你好、我、是、你、他、她）· Unit 2（日本、美国、中国、人、学生、老师）<br><span class="badge">文法</span> SVO基本文型 · 「是」字句（A是B）</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「我___王老师。」（私は王老师です。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q1a" value="A"> A. 你</label>
+    <label class="quiz-opt"><input type="radio" name="q1a" value="B"> B. 是</label>
+    <label class="quiz-opt"><input type="radio" name="q1a" value="C"> C. 他</label>
+    <label class="quiz-opt"><input type="radio" name="q1a" value="D"> D. 她</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q1a','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「是」は「〜だ」を表すcopula。「我王老师」では文になりません。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 推理クイズ：次の会話から、Bさんはどこの人でしょう？<br>A: 「你是哪国人？」B: 「我是加拿大人。」</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q1b" value="A"> A. 中国人</label>
+    <label class="quiz-opt"><input type="radio" name="q1b" value="B"> B. 日本人</label>
+    <label class="quiz-opt"><input type="radio" name="q1b" value="C"> C. カナダ人</label>
+    <label class="quiz-opt"><input type="radio" name="q1b" value="D"> D. 英国人</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q1b','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「加拿大」＝カナダ。国名＋「人」で国籍。<div class="vocab-note">「哪」（nǎ）＝どれ・どこ（疑問詞）</div></div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 間違い探し：文法として間違っているのは？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q1c" value="A"> A. 他是老师。</label>
+    <label class="quiz-opt"><input type="radio" name="q1c" value="B"> B. 她是学生。</label>
+    <label class="quiz-opt"><input type="radio" name="q1c" value="C"> C. 我是吗学生。</label>
+    <label class="quiz-opt"><input type="radio" name="q1c" value="D"> D. 你是我朋友。</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q1c','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「吗」は文末疑問助詞。「我是学生吗？」が正しい形です。<div class="vocab-note">「吗」（ma）＝Yes/No疑問を作る助詞</div></div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> シナリオ：空港で中国人の友達と出会いました。一番自然な挨拶は？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q1d" value="A"> A. 你好！好久不见！</label>
+    <label class="quiz-opt"><input type="radio" name="q1d" value="B"> B. 再见！明天见！</label>
+    <label class="quiz-opt"><input type="radio" name="q1d" value="C"> C. 对不起！打扰了！</label>
+    <label class="quiz-opt"><input type="radio" name="q1d" value="D"> D. 晚安！睡个好觉！</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q1d','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「好久不见」＝久しぶりにお会いしました。「再見」は別れ、「对不起」は謝罪、「晚安」は就寝前。<div class="vocab-note">「好久」（hǎojiǔ）＝長い間</div></div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 絵合わせ：「她」を使える相手は？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q1e" value="A"> A. 男性のみ</label>
+    <label class="quiz-opt"><input type="radio" name="q1e" value="B"> B. 女性のみ</label>
+    <label class="quiz-opt"><input type="radio" name="q1e" value="C"> C. 男女どちらでも</label>
+    <label class="quiz-opt"><input type="radio" name="q1e" value="D"> D. 動物のみ</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q1e','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「他」＝男性、「她」＝女性。中国語では発音が同じ（tā）ですが、文字が異なります。</div>
+  <div class="score-panel"><div class="score-label">Chapter 1 スコア</div><div class="score-num" id="score1">0 / 5</div></div>
+</section>
+
+<section class="card c-orange" id="q2">
+  <div class="unit-header"><span class="unit-num">Chapter 2</span><span class="unit-title">国籍＆疑問文<span class="zh-sub">国籍与疑问句</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 3（什么、怎么、哪、几、不、也、都）· Unit 4（家、房子、房间、卫生间）<br><span class="badge">文法</span> 疑问句（什么/怎么/哪）· 「不」否定文</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「你叫什么______？」（あなたは何という名前ですか？）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q2q1" value="A"> A. 名字</label>
+    <label class="quiz-opt"><input type="radio" name="q2q1" value="B"> B. 什么</label>
+    <label class="quiz-opt"><input type="radio" name="q2q1" value="C"> C. 哪里</label>
+    <label class="quiz-opt"><input type="radio" name="q2q1" value="D"> D. 谁</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q2q1','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「叫什么名字」＝何という名前。<div class="vocab-note">「名字」（míngzi）＝名前</div></div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 推理クイズ：A:「你来自哪儿？」B:「我来自上海。」→ Bさんの出身地は？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q2q2" value="A"> A. 北京</label>
+    <label class="quiz-opt"><input type="radio" name="q2q2" value="B"> B. 上海</label>
+    <label class="quiz-opt"><input type="radio" name="q2q2" value="C"> C. 广州</label>
+    <label class="quiz-opt"><input type="radio" name="q2q2" value="D"> D. 成都</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q2q2','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「来自」＝出身は〜。「哪儿」＝どこ。<div class="vocab-note">「来自」（lái zì）＝来源（出身）</div></div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 「怎么」の使い分け：どの文が正しいか？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q2q3" value="A"> A. 你怎么来中国？（方法）</label>
+    <label class="quiz-opt"><input type="radio" name="q2q3" value="B"> B. 你怎么不去学校？（理由・驚き）</label>
+    <label class="quiz-opt"><input type="radio" name="q2q3" value="C"> C. 両方とも正しい</label>
+    <label class="quiz-opt"><input type="radio" name="q2q3" value="D"> D. どちらも間違い</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q2q3','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「怎么」には二つの用法があります：①方法（どうやって）②理由・驚き（なぜ）。<div class="vocab-note">「怎么」（zěnme）＝どうして・どのように</div></div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> 「都」の使い方として間違っているのは？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q2q4" value="A"> A. 我们都去学校。</label>
+    <label class="quiz-opt"><input type="radio" name="q2q4" value="B"> B. 他都会说中文。</label>
+    <label class="quiz-opt"><input type="radio" name="q2q4" value="C"> C. 我不都吃饭。</label>
+    <label class="quiz-opt"><input type="radio" name="q2q4" value="D"> D. 他们都在家。</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q2q4','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 否定文は「我们都不吃饭」が正しい形です。「都」＝全部・すべて。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> シナリオ：ホテルのフロントで「请问，三号房在____楼？」</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="q2q5" value="A"> A. 多少</label>
+    <label class="quiz-opt"><input type="radio" name="q2q5" value="B"> B. 什么</label>
+    <label class="quiz-opt"><input type="radio" name="q2q5" value="C"> C. 怎么</label>
+    <label class="quiz-opt"><input type="radio" name="q2q5" value="D"> D. 第几</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q2q5','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：D</span> 階数を尋ねる時は「第几」。「第三层」＝3階。<div class="vocab-note">「第」（dì）＝序数接頭辞</div></div>
+  <div class="score-panel"><div class="score-label">Chapter 2 スコア</div><div class="score-num" id="score2">0 / 5</div></div>
+</section>
+<section class="card c-purple" id="q3">
+  <div class="unit-header"><span class="unit-num">Chapter 3</span><span class="unit-title">家族樹パズル<span class="zh-sub">家庭关系 puzzle</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 4（爸爸、妈妈、哥哥、弟弟、姐姐、妹妹、儿子、女儿、朋友）<br><span class="badge">文法</span> 「的」所有格 · 「有」存在文</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 家族樹パズル：お父さんの兄は日本語で何？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>中国人の友人が家族の話をしてます。「我___有个儿子，叫小明。」（私の兄に息子がいまして、名叫小明。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q3q1" value="A"> A. 叔叔</label>
+    <label class="quiz-opt"><input type="radio" name="q3q1" value="B"> B. 伯伯</label>
+    <label class="quiz-opt"><input type="radio" name="q3q1" value="C"> C. 舅舅</label>
+    <label class="quiz-opt"><input type="radio" name="q3q1" value="D"> D. 姑姑</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q3q1','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 父の兄＝「伯伯」、父の弟＝「叔叔」、母の兄弟＝「舅舅」、父の姉妹＝「姑姑」。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 穴埋め：「我有两个______。一个哥哥，一个妹妹。」（私には二人の兄弟がいます。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q3q2" value="A"> A. 兄弟姐妹</label>
+    <label class="quiz-opt"><input type="radio" name="q3q2" value="B"> B. 父母</label>
+    <label class="quiz-opt"><input type="radio" name="q3q2" value="C"> C. 孩子</label>
+    <label class="quiz-opt"><input type="radio" name="q3q2" value="D"> D. 老师</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q3q2','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「兄弟姐妹」＝兄弟姉妹全般。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 間違い探し：「的」の使い方として間違っているのは？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q3q3" value="A"> A. 我爸爸</label>
+    <label class="quiz-opt"><input type="radio" name="q3q3" value="B"> B. 老师的书</label>
+    <label class="quiz-opt"><input type="radio" name="q3q3" value="C"> C. 我是的老师。</label>
+    <label class="quiz-opt"><input type="radio" name="q3q3" value="D"> D. 我的朋友</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q3q3','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「是的老师」は不正解。「我的老师」または「我是老师」です。「的」是所有格助詞。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> シナリオ：あなたの家族構成を説明しています。「我家___四个人。」（我家には四人います。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q3q4" value="A"> A. 是</label>
+    <label class="quiz-opt"><input type="radio" name="q3q4" value="B"> B. 有</label>
+    <label class="quiz-opt"><input type="radio" name="q3q4" value="C"> C. 在</label>
+    <label class="quiz-opt"><input type="radio" name="q3q4" value="D"> D. 去</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q3q4','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「有」は存在を表します。「我家有四个人」＝我家に四人いる。<div class="vocab-note">「有」（yǒu）＝ある・いる（存在）</div></div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 推理クイズ：「我妈妈的弟弟的女儿是我的谁？」</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="q3q5" value="A"> A. 哥哥</label>
+    <label class="quiz-opt"><input type="radio" name="q3q5" value="B"> B. 伯伯</label>
+    <label class="quiz-opt"><input type="radio" name="q3q5" value="C"> C. 爷爷</label>
+    <label class="quiz-opt"><input type="radio" name="q3q5" value="D"> D. 表妹</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q3q5','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：D</span> 妈妈的弟弟＝「舅舅」、舅舅的女儿＝「表妹」（年下の女性親戚）。<div class="vocab-note">「表妹」（biǎomèi）＝父方・母方のいとこ（女性・年下）</div></div>
+  <div class="score-panel"><div class="score-label">Chapter 3 スコア</div><div class="score-num" id="score3">0 / 5</div></div>
+</section>
+
+<section class="card c-teal" id="q4">
+  <div class="unit-header"><span class="unit-num">Chapter 4</span><span class="unit-title">時間＆数字<span class="zh-sub">时间与数字</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 5（年、月、星期、日、号、点、分、上午、下午、晚上、今天、明天、昨天）· Unit 6（一～十、百、千、万、两）<br><span class="badge">文法</span> 时间表达法（从…到…）</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「现在是三点______十分。」（今は3時10分です。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q4q1" value="A"> A. 点</label>
+    <label class="quiz-opt"><input type="radio" name="q4q1" value="B"> B. 分</label>
+    <label class="quiz-opt"><input type="radio" name="q4q1" value="C"> C. 小时</label>
+    <label class="quiz-opt"><input type="radio" name="q4q1" value="D"> D. 分钟</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q4q1','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 時刻は「X点Y分」の順。「点」が時間の区切り。<div class="vocab-note">「点」（diǎn）＝時（時刻の単位）</div></div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 計算クイズ：今天是3月15日，三天后是几月几日？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q4q2" value="A"> A. 3月17日</label>
+    <label class="quiz-opt"><input type="radio" name="q4q2" value="B"> B. 3月18日</label>
+    <label class="quiz-opt"><input type="radio" name="q4q2" value="C"> C. 3月19日</label>
+    <label class="quiz-opt"><input type="radio" name="q4q2" value="D"> D. 4月15日</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q4q2','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 15+3=18。「三天后」＝三日後。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 「两」vs「二」：どちらが正しいか？「我有___个苹果。」（りんごが二つあります。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q4q3" value="A"> A. 二</label>
+    <label class="quiz-opt"><input type="radio" name="q4q3" value="B"> B. 两</label>
+    <label class="quiz-opt"><input type="radio" name="q4q3" value="C"> C. 俩</label>
+    <label class="quiz-opt"><input type="radio" name="q4q3" value="D"> D. 双</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q4q3','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 量詞の前では「两」を使います。「二个」ではなく「两个」。数詞自体の場合は「二」です。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> シナリオ：「我从早上八点___下午五点工作。」（午前8時から午後5時まで働きます。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q4q4" value="A"> A. 和</label>
+    <label class="quiz-opt"><input type="radio" name="q4q4" value="B"> B. 跟</label>
+    <label class="quiz-opt"><input type="radio" name="q4q4" value="C"> C. 到</label>
+    <label class="quiz-opt"><input type="radio" name="q4q4" value="D"> D. 从</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q4q4','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「从…到…」＝〜から〜まで。「从早上八点到下午五点」。<div class="vocab-note">「到」（dào）＝到達する（時間範囲の終点）</div></div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 推理クイズ：「星期一共有七天，星期三之后是星期___。」</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q4q5" value="A"> A. 五</label>
+    <label class="quiz-opt"><input type="radio" name="q4q5" value="B"> B. 四</label>
+    <label class="quiz-opt"><input type="radio" name="q4q5" value="C"> C. 六</label>
+    <label class="quiz-opt"><input type="radio" name="q4q5" value="D"> D. 日</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q4q5','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 水→木→金→土→日。星期三之后是星期四。</div>
+  <div class="score-panel"><div class="score-label">Chapter 4 スコア</div><div class="score-num" id="score4">0 / 5</div></div>
+</section>
+
+<section class="card c-green" id="q5">
+  <div class="unit-header"><span class="unit-num">Chapter 5</span><span class="unit-title">程度＆場所<span class="zh-sub">程度与地点</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 7（很、太、真、特别、多、少）· Unit 8（这里、那里、哪儿、上、下、里、外、旁边、中间）<br><span class="badge">文法</span> 程度副词（很/太/真）</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「今天天气___好！」（今日の天気は本当に良い！）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q5q1" value="A"> A. 不</label>
+    <label class="quiz-opt"><input type="radio" name="q5q1" value="B"> B. 没</label>
+    <label class="quiz-opt"><input type="radio" name="q5q1" value="C"> C. 真</label>
+    <label class="quiz-opt"><input type="radio" name="q5q1" value="D"> D. 都</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q5q1','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「真好」＝本当に良い。「太」は過剰表現（太好了＝よすぎ！）、「不」は否定。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 推理クイズ：A:「图书馆在哪里？」B:「在教室___面。」（図書館は教室の隣にあります。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q5q2" value="A"> A. 旁</label>
+    <label class="quiz-opt"><input type="radio" name="q5q2" value="B"> B. 上</label>
+    <label class="quiz-opt"><input type="radio" name="q5q2" value="C"> C. 里</label>
+    <label class="quiz-opt"><input type="radio" name="q5q2" value="D"> D. 大</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q5q2','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「旁边」＝隣り。「教室旁边」＝教室の横。<div class="vocab-note">「旁边」（pángbiān）＝となり</div></div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 「太」の使い分け：どの文が自然か？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q5q3" value="A"> A. 这个菜太好吃！（褒め）</label>
+    <label class="quiz-opt"><input type="radio" name="q5q3" value="B"> B. 这个菜太辣了！（苦情）</label>
+    <label class="quiz-opt"><input type="radio" name="q5q3" value="C"> C. 你太聪明！（普通会話）</label>
+    <label class="quiz-opt"><input type="radio" name="q5q3" value="D"> D. 我今天太高兴！（悲しみ）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q5q3','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「太…了」は過剰な感情表現。良い場合は褒め、悪い場合は苦情になりやすい。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> シナリオ：道を尋ねています。「银行在超市___。」（銀行はスーパーマーケットの上にあります。）→ 正しくない表現は？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q5q4" value="A"> A. 旁边</label>
+    <label class="quiz-opt"><input type="radio" name="q5q4" value="B"> B. 前面</label>
+    <label class="quiz-opt"><input type="radio" name="q5q4" value="C"> C. 上</label>
+    <label class="quiz-opt"><input type="radio" name="q5q4" value="D"> D. 对面</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q5q4','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「上面」＝の上に。銀行は通常、スーパーの上にはありません。正面・隣・向かい側が自然。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 絵合わせ：「下面」の反対語は？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q5q5" value="A"> A. 上面</label>
+    <label class="quiz-opt"><input type="radio" name="q5q5" value="B"> B. 里面</label>
+    <label class="quiz-opt"><input type="radio" name="q5q5" value="C"> C. 外面</label>
+    <label class="quiz-opt"><input type="radio" name="q5q5" value="D"> D. 旁边</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q5q5','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「上面」＝上 / 「下面」＝下。対義語の関係です。</div>
+  <div class="score-panel"><div class="score-label">Chapter 5 スコア</div><div class="score-num" id="score5">0 / 5</div></div>
+</section>
+
+<section class="card c-blue" id="q6">
+  <div class="unit-header"><span class="unit-num">Chapter 6</span><span class="unit-title">方向＆交通<span class="zh-sub">方向与交通</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 9（东、西、南、北、左、右、前、后、直走、转弯、上车、下车、飞机、火车、地铁、公交车）· Unit 10（坐、走、跑、飞、游泳、开车、骑车、打电话）<br><span class="badge">文法</span> 方位詞＋动词结构</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「请___走，然后在第二个路口___。」（まっすぐ行って、二番目の交差点で曲がってください。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q6q1" value="A"> A. 转弯 / 直走</label>
+    <label class="quiz-opt"><input type="radio" name="q6q1" value="B"> B. 直走 / 转弯</label>
+    <label class="quiz-opt"><input type="radio" name="q6q1" value="C"> C. 上车 / 下车</label>
+    <label class="quiz-opt"><input type="radio" name="q6q1" value="D"> D. 跑步 / 走路</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q6q1','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 道案内の基本表現。「直走」＝まっすぐ行く、「转弯」＝曲がる。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 推理クイズ：北京站在北京的哪个方向？（北京站是北京的中心火车站。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q6q2" value="A"> A. 北边</label>
+    <label class="quiz-opt"><input type="radio" name="q6q2" value="B"> B. 西边</label>
+    <label class="quiz-opt"><input type="radio" name="q6q2" value="C"> C. 东南方向</label>
+    <label class="quiz-opt"><input type="radio" name="q6q2" value="D"> D. 西北方向</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q6q2','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 地理知識問題！北京站は北京市の東南側に位置します。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> シナリオ：地下鉄に乗っています。「请在下一站___。」（次の駅で降りてください。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q6q3" value="A"> A. 下车</label>
+    <label class="quiz-opt"><input type="radio" name="q6q3" value="B"> B. 上车</label>
+    <label class="quiz-opt"><input type="radio" name="q6q3" value="C"> C. 开车</label>
+    <label class="quiz-opt"><input type="radio" name="q6q3" value="D"> D. 飞</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q6q3','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「下车」＝降りる。「上车」＝乗る。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> 間違い探し：交通手段として使えない動詞は？</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="q6q4" value="A"> A. 坐飞机</label>
+    <label class="quiz-opt"><input type="radio" name="q6q4" value="B"> B. 坐火车</label>
+    <label class="quiz-opt"><input type="radio" name="q6q4" value="C"> C. 骑自行车</label>
+    <label class="quiz-opt"><input type="radio" name="q6q4" value="D"> D. 游泳汽车</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q6q4','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：D</span> 「游泳」は泳ぐことで、自動車とは組み合わせません。「坐汽车」が正しい。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 穴埋め：「向左___，然后直走五分钟。」（左に曲がって、5分行きましょう。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q6q5" value="A"> A. 上</label>
+    <label class="quiz-opt"><input type="radio" name="q6q5" value="B"> B. 转</label>
+    <label class="quiz-opt"><input type="radio" name="q6q5" value="C"> C. 下</label>
+    <label class="quiz-opt"><input type="radio" name="q6q5" value="D"> D. 后</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q6q5','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「转弯」＝曲がる。「向左转」＝左折、「向右转」＝右折。</div>
+  <div class="score-panel"><div class="score-label">Chapter 6 スコア</div><div class="score-num" id="score6">0 / 5</div></div>
+</section>
+<section class="card c-pink" id="q7">
+  <div class="unit-header"><span class="unit-num">Chapter 7</span><span class="unit-title">レストラン注文ロールプレイ<span class="zh-sub">餐厅点餐角色扮演</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 11（饭、菜、肉、鱼、鸡、蛋、茶、咖啡、啤酒、水、面条、米饭、饺子）· Unit 12（辣、甜、酸、咸、淡、香、好吃、贵、便宜）<br><span class="badge">文法</span> 形容词＋「了」で変化を表す</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> シナリオ：レストランでウェイターに話しかけます。「请问，菜单___？」（すみません、メニューをください。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q7q1" value="A"> A. 给我一份</label>
+    <label class="quiz-opt"><input type="radio" name="q7q1" value="B"> B. 给我一杯</label>
+    <label class="quiz-opt"><input type="radio" name="q7q1" value="C"> C. 给我一条</label>
+    <label class="quiz-opt"><input type="radio" name="q7q1" value="D"> D. 给我一只</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q7q1','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「一份」は一般的な量詞。一杯＝飲料・一条＝魚・一只＝鳥/小動物。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 推理クイズ：「这菜太___了，我喝了很多水。」→ 空白に入る言葉は？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q7q2" value="A"> A. 甜</label>
+    <label class="quiz-opt"><input type="radio" name="q7q2" value="B"> B. 辣</label>
+    <label class="quiz-opt"><input type="radio" name="q7q2" value="C"> C. 淡</label>
+    <label class="quiz-opt"><input type="radio" name="q7q2" value="D"> D. 酸</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q7q2','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「辣」＝辛い。辛い食べ物を食べると水を飲みます。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 穴埋め：「我不吃___食。我是佛教徒。」（私は肉食を食べません。仏教徒です。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q7q3" value="A"> A. 素</label>
+    <label class="quiz-opt"><input type="radio" name="q7q3" value="B"> B. 白</label>
+    <label class="quiz-opt"><input type="radio" name="q7q3" value="C"> C. 肉</label>
+    <label class="quiz-opt"><input type="radio" name="q7q3" value="D"> D. 火</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q7q3','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 仏教徒は肉食を避けることが多い。「肉食」＝お肉を食べるもの。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> シナリオ：料理が来ました。「这个饺子___！」（この餃子美味しい！）</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="q7q4" value="A"> A. 很多</label>
+    <label class="quiz-opt"><input type="radio" name="q7q4" value="B"> B. 很快</label>
+    <label class="quiz-opt"><input type="radio" name="q7q4" value="C"> C. 很好</label>
+    <label class="quiz-opt"><input type="radio" name="q7q4" value="D"> D. 很好吃</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q7q4','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：D</span> 「好吃」＝おいしい。「很好吃」＝とてもおいしい。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 間違い探し：値段の表現として正しいのは？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q7q5" value="A"> A. 这个苹果十块毛。</label>
+    <label class="quiz-opt"><input type="radio" name="q7q5" value="B"> B. 这个苹果十块钱。</label>
+    <label class="quiz-opt"><input type="radio" name="q7q5" value="C"> C. 这个苹果十条钱。</label>
+    <label class="quiz-opt"><input type="radio" name="q7q5" value="D"> D. 这个苹果十个毛。</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q7q5','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> お金の単位は「块钱」（元）。毛＝角（1角＝0.1元）。</div>
+  <div class="score-panel"><div class="score-label">Chapter 7 スコア</div><div class="score-num" id="score7">0 / 5</div></div>
+</section>
+
+<section class="card c-purple" id="q8">
+  <div class="unit-header"><span class="unit-num">Chapter 8</span><span class="unit-title">色＆日用品マッチング<span class="zh-sub">颜色与日用品匹配</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 13（红、黄、蓝、绿、白、黑、紫、灰、棕色）· Unit 14（手机、电脑、书、笔、桌子、椅子、床、门、窗户、衣服、裤子、鞋子、帽子、钱包）<br><span class="badge">文法</span> 形容詞＋名词结构</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「请给我一杯___咖啡。」（ブラックコーヒーをください。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q8q1" value="A"> A. 红</label>
+    <label class="quiz-opt"><input type="radio" name="q8q1" value="B"> B. 黑</label>
+    <label class="quiz-opt"><input type="radio" name="q8q1" value="C"> C. 白</label>
+    <label class="quiz-opt"><input type="radio" name="q8q1" value="D"> D. 绿</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q8q1','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「黑咖啡」＝ブラックコーヒー。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> シナリオ：スーパーで買い物をしています。「我需要买一个___。」（スマホバッテリーが切れました。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q8q2" value="A"> A. 手机</label>
+    <label class="quiz-opt"><input type="radio" name="q8q2" value="B"> B. 电脑</label>
+    <label class="quiz-opt"><input type="radio" name="q8q2" value="C"> C. 书</label>
+    <label class="quiz-opt"><input type="radio" name="q8q2" value="D"> D. 笔</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q8q2','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> バッテリー切れ→「手机」(スマートフォン)。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 推理クイズ：「我把钥匙放在桌子___面了。」（机の上にキーを置きました。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q8q3" value="A"> A. 下</label>
+    <label class="quiz-opt"><input type="radio" name="q8q3" value="B"> B. 里</label>
+    <label class="quiz-opt"><input type="radio" name="q8q3" value="C"> C. 上</label>
+    <label class="quiz-opt"><input type="radio" name="q8q3" value="D"> D. 外</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q8q3','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「上面」＝上に。桌子上＝机の上。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> 間違い探し：色の組み合わせとして自然でないのは？</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="q8q4" value="A"> A. 红色的衣服</label>
+    <label class="quiz-opt"><input type="radio" name="q8q4" value="B"> B. 白色的纸</label>
+    <label class="quiz-opt"><input type="radio" name="q8q4" value="C"> C. 蓝色的天空</label>
+    <label class="quiz-opt"><input type="radio" name="q8q4" value="D"> D. 绿色的血</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q8q4','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：D</span> 血は緑色ではありません。赤色です。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> シナリオ：部屋探しの会話。A:「我的___在哪里？」B:「在窗户旁边。」（私の本はどこですか？）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q8q5" value="A"> A. 椅子</label>
+    <label class="quiz-opt"><input type="radio" name="q8q5" value="B"> B. 床</label>
+    <label class="quiz-opt"><input type="radio" name="q8q5" value="C"> C. 书</label>
+    <label class="quiz-opt"><input type="radio" name="q8q5" value="D"> D. 门</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q8q5','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「书」＝本。窗户旁边＝窓の隣。</div>
+  <div class="score-panel"><div class="score-label">Chapter 8 スコア</div><div class="score-num" id="score8">0 / 5</div></div>
+</section>
+
+<section class="card c-teal" id="q9">
+  <div class="unit-header"><span class="unit-num">Chapter 9</span><span class="unit-title">核心動詞アクションマッチ<span class="zh-sub">核心动词动作匹配</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 15（工作、学习、阅读、写作、唱歌、跳舞、画画、运动、睡觉、起床、吃饭、洗澡、看电影、打电话）· Unit 16（喜欢、爱、恨、想、希望、需要、愿意、可以、应该、能）<br><span class="badge">文法</span> 能願動詞（可以/应该/能）</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> シナリオ：毎日のルーティン。「我每天六点半___，七点吃早饭。」（毎日6時半に起きます。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q9q1" value="A"> A. 起床</label>
+    <label class="quiz-opt"><input type="radio" name="q9q1" value="B"> B. 睡觉</label>
+    <label class="quiz-opt"><input type="radio" name="q9q1" value="C"> C. 洗澡</label>
+    <label class="quiz-opt"><input type="radio" name="q9q1" value="D"> D. 看电影</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q9q1','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「起床」＝起きる。朝6時半→起床。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 穴埋め：「你周末喜欢___吗？」（週末に映画を見ますか？）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q9q2" value="A"> A. 运动</label>
+    <label class="quiz-opt"><input type="radio" name="q9q2" value="B"> B. 唱歌</label>
+    <label class="quiz-opt"><input type="radio" name="q9q2" value="C"> C. 看电影</label>
+    <label class="quiz-opt"><input type="radio" name="q9q2" value="D"> D. 洗澡</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q9q2','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「看电影」＝映画を見る。週末の娯楽として一般的。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 推理クイズ：「我可以___中文吗？」（中国語を学んでもいいですか？）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q9q3" value="A"> A. 吃</label>
+    <label class="quiz-opt"><input type="radio" name="q9q3" value="B"> B. 学</label>
+    <label class="quiz-opt"><input type="radio" name="q9q3" value="C"> C. 看</label>
+    <label class="quiz-opt"><input type="radio" name="q9q3" value="D"> D. 睡</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q9q3','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「学」＝学ぶ。「学中文」＝中国語を学ぶ。<div class="vocab-note">「学」（xué）＝学ぶ</div></div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> シナリオ：도서관에서 친구를 만납니다。「你在___书。」（図書館で本を読んでいます。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q9q4" value="A"> A. 阅读</label>
+    <label class="quiz-opt"><input type="radio" name="q9q4" value="B"> B. 唱歌</label>
+    <label class="quiz-opt"><input type="radio" name="q9q4" value="C"> C. 跳舞</label>
+    <label class="quiz-opt"><input type="radio" name="q9q4" value="D"> D. 洗澡</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q9q4','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 図書館→「阅读」（読む）。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 能願動詞：「你___来吗？」（来ることができますか？）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q9q5" value="A"> A. 应该</label>
+    <label class="quiz-opt"><input type="radio" name="q9q5" value="B"> B. 希望</label>
+    <label class="quiz-opt"><input type="radio" name="q9q5" value="C"> C. 能</label>
+    <label class="quiz-opt"><input type="radio" name="q9q5" value="D"> D. 爱</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q9q5','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「能」＝できる（能力・可能）。「可以」も同じ意味ですが、選択肢にはありません。</div>
+  <div class="score-panel"><div class="score-label">Chapter 9 スコア</div><div class="score-num" id="score9">0 / 5</div></div>
+</section>
+
+<section class="card c-orange" id="q10">
+  <div class="unit-header"><span class="unit-num">Chapter 10</span><span class="unit-title">感情推測ミステリー<span class="zh-sub">情感推测侦探游戏</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 17（高兴、难过、生气、害怕、累、饿、渴、冷、热、开心、着急、满意、失望）· Unit 18（大、小、多、少、高、低、长、短、远、近、新、旧、好、坏）<br><span class="badge">文法</span> 状态动词＋宾语结构</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> ミステリー：A的表情は怒っています。「他___了，因为他的手机丢了。」（彼は怒っています。スマホをなくしたからです。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q10q1" value="A"> A. 高兴</label>
+    <label class="quiz-opt"><input type="radio" name="q10q1" value="B"> B. 生气</label>
+    <label class="quiz-opt"><input type="radio" name="q10q1" value="C"> C. 开心</label>
+    <label class="quiz-opt"><input type="radio" name="q10q1" value="D"> D. 满意</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q10q1','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> スマホをなくすと「生气」（怒る）のが自然です。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> 穴埋め：「我今天工作很___，想睡觉。」（今日は仕事が疲れたので寝たい。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q10q2" value="A"> A. 累</label>
+    <label class="quiz-opt"><input type="radio" name="q10q2" value="B"> B. 饿</label>
+    <label class="quiz-opt"><input type="radio" name="q10q2" value="C"> C. 渴</label>
+    <label class="quiz-opt"><input type="radio" name="q10q2" value="D"> D. 冷</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q10q2','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「累」＝疲れた。仕事→疲れ→睡觉。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> シナリオ：テストの結果を見ています。「他考了一百分，非常___！」（100点を取って、すごく嬉しい！）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q10q3" value="A"> A. 难过</label>
+    <label class="quiz-opt"><input type="radio" name="q10q3" value="B"> B. 害怕</label>
+    <label class="quiz-opt"><input type="radio" name="q10q3" value="C"> C. 高兴</label>
+    <label class="quiz-opt"><input type="radio" name="q10q3" value="D"> D. 失望</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q10q3','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 100点→「高兴」（嬉しい）。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> 推理クイズ：「冬天很___，所以要穿厚衣服。」（冬はとても寒いので、厚い服を着ます。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q10q4" value="A"> A. 热</label>
+    <label class="quiz-opt"><input type="radio" name="q10q4" value="B"> B. 冷</label>
+    <label class="quiz-opt"><input type="radio" name="q10q4" value="C"> C. 远</label>
+    <label class="quiz-opt"><input type="radio" name="q10q4" value="D"> D. 近</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q10q4','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 冬→「冷」（寒い）。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 対義語：「好」の反対は？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q10q5" value="A"> A. 坏</label>
+    <label class="quiz-opt"><input type="radio" name="q10q5" value="B"> B. 大</label>
+    <label class="quiz-opt"><input type="radio" name="q10q5" value="C"> C. 多</label>
+    <label class="quiz-opt"><input type="radio" name="q10q5" value="D"> D. 高</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q10q5','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「好」＝良い / 「坏」＝悪い。対義語の関係です。</div>
+  <div class="score-panel"><div class="score-label">Chapter 10 スコア</div><div class="score-num" id="score10">0 / 5</div></div>
+</section>
+<section class="card c-cyan" id="q11">
+  <div class="unit-header"><span class="unit-num">Chapter 11</span><span class="unit-title">天気＆接続詞ストーリー<span class="zh-sub">天气与连接词故事</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">単語</span> Unit 19（因为、所以、虽然、但是、如果、就、而且、或者、但是、然后）· Unit 20（今天、明天、昨天、现在、过去、未来、春天、夏天、秋天、冬天、下雨、下雪、刮风、太阳、云、风、雨、雪、冷、热、凉快、暖和）<br><span class="badge">文法</span> 接続詞ペア（因为…所以…、虽然…但是…）</p></div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> 穴埋め：「___今天下雨，我___带伞了。」（今日は雨が降っているので、傘を持っていきました。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q11q1" value="A"> A. 虽然 / 但是</label>
+    <label class="quiz-opt"><input type="radio" name="q11q1" value="B"> B. 如果 / 就</label>
+    <label class="quiz-opt"><input type="radio" name="q11q1" value="C"> C. 因为 / 所以</label>
+    <label class="quiz-opt"><input type="radio" name="q11q1" value="D"> D. 而且 / 或者</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q11q1','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「因为…所以…」＝〜なので、〜だから。原因と結果を表す。</div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> シナリオ：「___明天是周末，我___去公园。」（明日は週末なので、公園に行きます。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q11q2" value="A"> A. 虽然 / 但是</label>
+    <label class="quiz-opt"><input type="radio" name="q11q2" value="B"> B. 因为 / 所以</label>
+    <label class="quiz-opt"><input type="radio" name="q11q2" value="C"> C. 如果 / 就</label>
+    <label class="quiz-opt"><input type="radio" name="q11q2" value="D"> D. 而且 / 或者</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q11q2','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 実際の日帰り旅行→because-so。もし行くかどうか分からない場合はif-then（如果/就）。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> 推理クイズ：「他学习很努力，___成绩不好。」（彼は一生懸命勉強していますが、成績がよくありません。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q11q3" value="A"> A. 但是</label>
+    <label class="quiz-opt"><input type="radio" name="q11q3" value="B"> B. 所以</label>
+    <label class="quiz-opt"><input type="radio" name="q11q3" value="C"> C. 因为</label>
+    <label class="quiz-opt"><input type="radio" name="q11q3" value="D"> D. 然后</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q11q3','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 逆説。「虽然…但是…」＝〜が、しかし…。努力しているが成績が悪い→转折。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> 穴埋め：「___你努力学习，___能取得好成绩。」（努力すれば、良い成績が取れます。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q11q4" value="A"> A. 因为 / 所以</label>
+    <label class="quiz-opt"><input type="radio" name="q11q4" value="B"> B. 虽然 / 但是</label>
+    <label class="quiz-opt"><input type="radio" name="q11q4" value="C"> C. 如果 / 就</label>
+    <label class="quiz-opt"><input type="radio" name="q11q4" value="D"> D. 而且 / 或者</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q11q4','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「如果…就…」＝もし〜なら、〜だろう。条件表現。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 天気クイズ：「冬天会___，所以很冷。」（冬は降るので、とても寒いです。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q11q5" value="A"> A. 下雨</label>
+    <label class="quiz-opt"><input type="radio" name="q11q5" value="B"> B. 下雪</label>
+    <label class="quiz-opt"><input type="radio" name="q11q5" value="C"> C. 刮风</label>
+    <label class="quiz-opt"><input type="radio" name="q11q5" value="D"> D. 太阳</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q11q5','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 冬→「下雪」（雪が降る）。</div>
+  <div class="score-panel"><div class="score-label">Chapter 11 スコア</div><div class="score-num" id="score11">0 / 5</div></div>
+</section>
+
+<section class="card c-pink" id="q12">
+  <div class="unit-header"><span class="unit-num">Chapter 12</span><span class="unit-title">最終脱出ゲーム<span class="zh-sub">最终逃脱游戏</span></span></div>
+  <div class="tip">このチャプターを解く前に、以下のユニットを勉強してください：</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p><span class="badge">総合復習</span> 全ユニット（Unit 1-25）から出題されます！<br><span class="badge">文法</span> SVO基本文型 · 是字句 · 疑问句 · 否定文 · 所有格 · 存在文 · 程度副词 · 方位詞 · 接続詞ペア</p></div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ：北京の迷路から脱出せよ！</div>あなたは北京の古い胡同（ほどう）で道に迷いました。出口を見つけるために、中国語の問題を解いてください！各問題を解くたびに、次の場所へのヒントが得られます。</div>
+  <div class="quiz-q"><span class="q-num">Q1.</span> ヒント1：「我是___学生。我来自日本。」（私は留学生です。日本から来ました。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q12q1" value="A"> A. 一个</label>
+    <label class="quiz-opt"><input type="radio" name="q12q1" value="B"> B. 一名</label>
+    <label class="quiz-opt"><input type="radio" name="q12q1" value="C"> C. 一条</label>
+    <label class="quiz-opt"><input type="radio" name="q12q1" value="D"> D. 一只</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q12q1','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 人を数える時は「名」を使います。「一名学生」＝一人の学生。<div class="vocab-note">「名」（míng）＝人の量詞</div></div>
+  <div class="quiz-q"><span class="q-num">Q2.</span> ヒント2：「胡同的___口右转，看到银行就到了。」（路の右に曲がって、銀行が見えると着きます。）</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="q12q2" value="A"> A. 后</label>
+    <label class="quiz-opt"><input type="radio" name="q12q2" value="B"> B. 左</label>
+    <label class="quiz-opt"><input type="radio" name="q12q2" value="C"> C. 右</label>
+    <label class="quiz-opt"><input type="radio" name="q12q2" value="D"> D. 上</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q12q2','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：C</span> 「右」＝右方向。路の右端→右に曲がる。</div>
+  <div class="quiz-q"><span class="q-num">Q3.</span> ヒント3：「这家餐厅的菜很___，但是我吃不起。」（このレストランの料理は美味しいですが、食べられません。）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q12q3" value="A"> A. 好吃</label>
+    <label class="quiz-opt"><input type="radio" name="q12q3" value="B"> B. 难吃</label>
+    <label class="quiz-opt"><input type="radio" name="q12q3" value="C"> C. 很多</label>
+    <label class="quiz-opt"><input type="radio" name="q12q3" value="D"> D. 很快</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q12q3','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 「好吃」＝おいしい。でも高価→吃不起（食べられない）。</div>
+  <div class="quiz-q"><span class="q-num">Q4.</span> ヒント4：「___今天很冷，我穿了很多衣服。」（今日は寒いので、多くの服を着ています。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="q12q4" value="A"> A. 虽然</label>
+    <label class="quiz-opt"><input type="radio" name="q12q4" value="B"> B. 因为</label>
+    <label class="quiz-opt"><input type="radio" name="q12q4" value="C"> C. 如果</label>
+    <label class="quiz-opt"><input type="radio" name="q12q4" value="D"> D. 但是</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q12q4','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：B</span> 「因为」＝〜なので。理由の説明。</div>
+  <div class="quiz-q"><span class="q-num">Q5.</span> 最終問題：「我终于找到出口了！太___了！」（やっと出口を見つけました！嬉しい！）</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="q12q5" value="A"> A. 高兴</label>
+    <label class=" quiz-opt"><input type="radio" name="q12q5" value="B"> B. 生气</label>
+    <label class="quiz-opt"><input type="radio" name="q12q5" value="C"> C. 害怕</label>
+    <label class="quiz-opt"><input type="radio" name="q12q5" value="D"> D. 累</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('q12q5','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal"><span class="ans-label">正解：A</span> 出口を見つけた→「高兴」（嬉しい）！おめでとうございます！🎉</div>
+  <div class="trivia-box"><div class="trivia-box-title">🏆 卒業おめでとう！</div><p>全12チャプター、60問のクイズを完了しました！それぞれのスコアを確認して、苦手なユニットを復習しましょう。</p></div>
+  <div class="score-panel"><div class="score-label">Chapter 12（最終）スコア</div><div class="score-num" id="score12">0 / 5</div></div>
+</section>
+
+
+<script>
+// Score tracking
+const scores = {};
+function checkOpt(name, correct) {
+  const options = document.querySelectorAll(`input[name="${name}"]`);
+  let selected = null;
+  let groupEl = null;
+  options.forEach(opt => {
+    if (opt.checked) {
+      selected = opt.value;
+      groupEl = opt.closest('.quiz-options');
+    }
+    opt.parentElement.classList.remove('correct', 'wrong');
+  });
+  if (!selected) return;
+  const reveal = groupEl.nextElementSibling;
+  if (selected === correct) {
+    groupEl.querySelector(`input[value="${correct}"]`).parentElement.classList.add('correct');
+    if (reveal && reveal.classList.contains('answer-reveal')) reveal.classList.add('show');
+  } else {
+    groupEl.querySelector(`input[value="${selected}"]`).parentElement.classList.add('wrong');
+    groupEl.querySelector(`input[value="${correct}"]`).parentElement.classList.add('correct');
+    if (reveal && reveal.classList.contains('answer-reveal')) reveal.classList.add('show');
+  }
+  // Update chapter score
+  const chapterId = groupEl.closest('.card').id;
+  const qNum = name.replace(chapterId.replace('q',''), '');
+  if (!scores[chapterId]) scores[chapterId] = { correct: 0, total: 0 };
+  scores[chapterId].total++;
+  if (selected === correct) scores[chapterId].correct++;
+  const scoreEl = document.getElementById(`score${chapterId.replace('q','')}`);
+  if (scoreEl) scoreEl.textContent = `${scores[chapterId].correct} / ${scores[chapterId].total}`;
+}
+
+// Mobile TOC toggle
+document.getElementById('tocFab').addEventListener('click', () => {
+  document.body.classList.toggle('toc-open');
+});
+document.getElementById('tocClose').addEventListener('click', () => {
+  document.body.classList.remove('toc-open');
+});
+document.getElementById('tocBackdrop').addEventListener('click', () => {
+  document.body.classList.remove('toc-open');
+});
+
+// Scroll spy for active TOC item
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('section[id^="q"]');
+  const tocItems = document.querySelectorAll('.toc-item');
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (window.pageYOffset >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  tocItems.forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('href') === `#${current}`) {
+      item.classList.add('active');
+    }
+  });
+});
+</script>
+
+<!-- ===== Bonus Trivia Section ===== -->
+<section class="card c-teal" id="bonus1">
+  <div class="unit-header"><span class="unit-num">🌟</span><span class="unit-title">趣味知識クイズ（Bonus Trivia）<span class="zh-sub">趣味知识问答</span></span></div>
+  <div class="tip">HSKの単語・文法とは関係ない、でも知っておくと楽しい中国雑学！旅行や会話で役立ちます。</div>
+  <div class="cn-box"><div class="cn-box-title">📚 推奨学習順序</div><p>このチャプターは任意です。すでにUnit 1-20までの全コンテンツを勉強していることを前提としています。<br>ただし、問題はすべて日常生活に関連するものです。</p></div>
+
+  <!-- Trivia Q1 -->
+  <div class="quiz-q"><span class="q-num">Q1.</span> 🏙️ 地理：中国で最も人口が多い都市は？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>中国人の友人に「你最喜欢哪个城市？」（どの都市が一番好きですか？）と聞かれました。彼は「上海！」と言いました。では、中国で一番人口が多い都市は何でしょう？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="triv1" value="A"> A. 上海（Shànghǎi）</label>
+    <label class="quiz-opt"><input type="radio" name="triv1" value="B"> B. 北京（Běijīng）</label>
+    <label class="quiz-opt"><input type="radio" name="triv1" value="C"> C. 广州（Guǎngzhōu）</label>
+    <label class="quiz-opt"><input type="radio" name="triv1" value="D"> D. 成都（Chéngdū）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv1','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：A — 上海</span><br>
+    <strong>【解析】</strong> 上海是中国人口最多的城市，常住人口超过2400万。虽然北京是首都（首都），但人口数量不如上海。广州和成都都是大城市，但规模更小。<br>
+    <strong>💡 豆知識：</strong> 上海は「魔都」（ mó dū ）とも呼ばれ、中国最大の金融センターです。東方明珠电视塔や外滩（バンドウ）が有名です。<div class="vocab-note">「人口」（rénkǒu）＝人口 / 「最多」＝最も多い</div>
+  </div>
+
+  <!-- Trivia Q2 -->
+  <div class="quiz-q"><span class="q-num">Q2.</span> 🎊 祭り：以下のうち、中国の伝統的な祭りで<strong>ない</strong>ものはどれ？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>中国の友達から「下一个节日是什么？」（次の祭日は何？）と聞かれました。以下の選択肢の中から、中国の伝統的な祭りではないものを探してください。</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="triv2" value="A"> A. 春节（春節）</label>
+    <label class="quiz-opt"><input type="radio" name="triv2" value="B"> B. 中秋节（中秋節）</label>
+    <label class="quiz-opt"><input type="radio" name="triv2" value="C"> C. 端午节（端午節）</label>
+    <label class="quiz-opt"><input type="radio" name="triv2" value="D"> D. 万圣节（萬聖節）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv2','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：D — 万圣节（ハロウィン）</span><br>
+    <strong>【解析】</strong> 春节、中秋节、端午节都是中国传统节日，源自中国古代文化。万圣节是西方节日（起源于凯尔特人的传统节日），在中国不是传统节日。<br>
+    <strong>💡 豆知識：</strong> 中国には他にも多くの传统节日があります：元宵节（正月15日）、清明节（4月上旬）、七夕节（农历7月7日）、重阳节（农历9月9日）など。<div class="vocab-note">「传统」（chuántǒng）＝伝統 / 「起源」（qǐyuán）＝起源</div>
+  </div>
+
+  <!-- Trivia Q3 -->
+  <div class="quiz-q"><span class="q-num">Q3.</span> 🍜 美食：「麻婆豆腐」是哪个省份の名物料理？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>四川料理のお店でメニューを見ています。「麻婆豆腐」を食べたいのですが、これはどこの料理でしょうか？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv3" value="A"> A. 北京</label>
+    <label class="quiz-opt"><input type="radio" name="triv3" value="B"> B. 广东（広東）</label>
+    <label class="quiz-opt"><input type="radio" name="triv3" value="C"> C. 四川</label>
+    <label class="quiz-opt"><input type="radio" name="triv3" value="D"> D. 江苏（江蘇）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv3','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 四川</span><br>
+    <strong>【解析】</strong> 麻婆豆腐是四川省的传统名菜，以麻辣著称。川菜是中国八大菜系之一，以「麻」（花椒的麻味）和「辣」（辣椒的辣味）为特点。<br>
+    <strong>💡 豆知識：</strong> 麻婆豆腐の「麻」は花椒（ほしょう／hua jiao）の辛さ、「婆」はもともと作った老婆（おばあさん）に由来します。世界で最も知られた中国料理の一つです。<div class="vocab-note">「著名」（zhùmíng）＝有名な / 「特点」（tèdiǎn）＝特徴</div>
+  </div>
+
+  <!-- Trivia Q4 -->
+  <div class="quiz-q"><span class="q-num">Q4.</span> 🐼 动物：中国の「国宝」はどれ？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>熊猫馆（ぱんだ館）を訪れています。中国の国獣として世界中で人気のある動物は何でしょう？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv4" value="A"> A. 金丝猴（きんしのサル）</label>
+    <label class="quiz-opt"><input type="radio" name="triv4" value="B"> B. 大熊猫（だいぱんだ）</label>
+    <label class="quiz-opt"><input type="radio" name="triv4" value="C"> C. 藏羚羊（チベットのランゲイ）</label>
+    <label class="quiz-opt"><input type="radio" name="triv4" value="D"> D. 丹顶鹤（たんのつる）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv4','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 大熊猫（パンダ）</span><br>
+    <strong>【解析】</strong> 大熊猫是中国特有的物种，主要分布在四川、陕西和甘肃的山区。它们以竹子为主要食物，每天需要花费10-16小时进食。<br>
+    <strong>💡 豆知識：</strong> パンダは中国の「外交ツール」とも言われ、世界各地の動物園に租借されています。また、WWF（世界自然保護基金）のマスコットでもあります。<div class="vocab-note">「特有」（tèyǒu）＝固有の / 「分布」（fēnbù）＝分布</div>
+  </div>
+
+  <!-- Trivia Q5 -->
+  <div class="quiz-q"><span class="q-num">Q5.</span> 💰 生活：中国でQRコード決済が使えない場所は？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>中国に旅行に行きました。 almost everywhere でWeChat PayやAlipayを使えます。では、それでも使えない場所はどこでしょう？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv5" value="A"> A. 超市（スーパー）</label>
+    <label class="quiz-opt"><input type="radio" name="triv5" value="B"> B. 地铁（地下鉄）</label>
+    <label class="quiz-opt"><input type="radio" name="triv5" value="C"> C. 偏远农村（へん遠な農村）</label>
+    <label class="quiz-opt"><input type="radio" name="triv5" value="D"> D. 餐厅（レストラン）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv5','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 偏远农村（へん遠な農村）</span><br>
+    <strong>【解析】</strong> 中国的城市中，移动支付（微信支付、支付宝）几乎无处不在。但在偏远的农村地区，网络覆盖不足，仍然需要使用现金或银行卡。<br>
+    <strong>💡 豆知識：</strong> 中国は「現金なし・スマホがあれば何でも買える」（无现金社会）と言われるほどモバイル決済が進んでいます。路上の野菜売り場でさえQRコード決済に対応しています！<div class="vocab-note">「移动支付」（yídòng fùzhī）＝モバイル決済 / 「现金」（xiànjīn）＝現金</div>
+  </div>
+
+  <!-- Trivia Q6 -->
+  <div class="quiz-q"><span class="q-num">Q6.</span> 🏔️ 地理：世界で最も高い山は？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>登山愛好家の友達と話しています。「珠穆朗玛峰」はどこにあるか分かりますか？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="triv6" value="A"> A. 中国・尼泊尔边境</label>
+    <label class="quiz-opt"><input type="radio" name="triv6" value="B"> B. 中国・インド边境</label>
+    <label class="quiz-opt"><input type="radio" name="triv6" value="C"> C. 中国・俄罗斯边境</label>
+    <label class="quiz-opt"><input type="radio" name="triv6" value="D"> D. チベット国内</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv6','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：A — 中国・尼泊尔边境</span><br>
+    <strong>【解析】</strong> 珠穆朗玛峰（エベレスト）はネパール（サガルマータ）と中国チベット自治区の国境にあります。標高8,848.86m。<br>
+    <strong>💡 豆知識：</strong> 中国語では「珠穆朗玛峰」（Zhūmùlǎngmǎ Fēng）。チベット語で「大地の母」を意味します。登頂には約2週間かかり、許可証が必要です。<div class="vocab-note">「边境」（biānjìng）＝国境 / 「海拔」（hǎibá）＝標高</div>
+  </div>
+
+  <!-- Trivia Q7 -->
+  <div class="quiz-q"><span class="q-num">Q7.</span> 🧧 文化：红包（ホンバオ）に絶対に含めてはいけない数字は？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>結婚式に参加します。红包に入れるお金を選ぶ時、何を避けるべきでしょう？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv7" value="A"> A. 66元</label>
+    <label class="quiz-opt"><input type="radio" name="triv7" value="B"> B. 40元</label>
+    <label class="quiz-opt"><input type="radio" name="triv7" value="C"> C. 88元</label>
+    <label class="quiz-opt"><input type="radio" name="triv7" value="D"> D. 99元</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv7','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 40元</span><br>
+    <strong>【解析】</strong> 数字「四」（sì）发音类似「死」（死亡），所以在中国文化中是不吉利的数字。红包金额应避免包含4。相反，6（流）、8（发）、9（久）都是吉利数字。<br>
+    <strong>💡 豆知識：</strong> 婚礼红包常见的金额：200元、500元、600元、800元、1000元。偶数金额比奇数更受欢迎（除了9，因为象征长久）。<div class="vocab-note">「吉利」（jí lì）＝縁起が良い / 「金额」（jīn'é）＝金額</div>
+  </div>
+
+  <!-- Trivia Q8 -->
+  <div class="quiz-q"><span class="q-num">Q8.</span> 🚄 交通：中国的高速铁路最高时速は？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>北京から上海まで高铁で行きます。 fastest train の速度を知っていますか？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv8" value="A"> A. 200 km/h</label>
+    <label class="quiz-opt"><input type="radio" name="triv8" value="B"> B. 300 km/h</label>
+    <label class="quiz-opt"><input type="radio" name="triv8" value="C"> C. 350 km/h</label>
+    <label class="quiz-opt"><input type="radio" name="triv8" value="D"> D. 400 km/h</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv8','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 350 km/h</span><br>
+    <strong>【解析】</strong> 中国的高铁（高速铁路）运营速度最高为350公里/小时。京沪高铁（北京-上海）全程约4.5小时，是世界上最快的商业铁路线之一。<br>
+    <strong>💡 豆知識：</strong> 中国拥有世界上最长的高速铁路网（超过4万公里）。春节期间的「抢票」大战是每年最大的社会现象之一。<div class="vocab-note">「高速」（gāosù）＝高速 / 「运营」（yíngyùn）＝運行</div>
+  </div>
+
+  <!-- Trivia Q9 -->
+  <div class="quiz-q"><span class="q-num">Q9.</span> 📱 テクノロジー：中国で最も使われている検索エンジンは？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>中国に旅行中です。地図や情報を調べたいですが、Googleは使えません。では、何を使えば良いでしょう？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv9" value="A"> A. Google</label>
+    <label class="quiz-opt"><input type="radio" name="triv9" value="B"> B. 百度（Bǎidù）</label>
+    <label class="quiz-opt"><input type="radio" name="triv9" value="C"> C. Yahoo</label>
+    <label class="quiz-opt"><input type="radio" name="triv9" value="D"> D. Bing</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv9','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 百度（Baidu）</span><br>
+    <strong>【解析】</strong> 百度是中国最大的搜索引擎，市场份额超过70%。Google在中国大陆无法使用（防火长城）。百度地图、百度翻译等应用也非常流行。<br>
+    <strong>💡 豆知識：</strong> 百度的名字は辛弃疾の词「众里寻他千百度」から来ています。「百度」は「何度も探す」の意味です。<div class="vocab-note">「搜索」（sōusuǒ）＝検索 / 「市场」（shìchǎng）＝市場</div>
+  </div>
+
+  <!-- Trivia Q10 -->
+  <div class="quiz-q"><span class="q-num">Q10.</span> 🎭 文化：京剧の顔彩（めくら）で赤い色はどんな意味？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>京剧の舞台を観ています。主角の顔が真っ赤です。这是什么意思？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="triv10" value="A"> A. 忠诚・勇敢（忠義・勇気）</label>
+    <label class="quiz-opt"><input type="radio" name="triv10" value="B"> B. 邪恶・狡猾（悪・ずる賢さ）</label>
+    <label class="quiz-opt"><input type="radio" name="triv10" value="C"> C. 悲伤・哀愁（悲しみ）</label>
+    <label class="quiz-opt"><input type="radio" name="triv10" value="D"> D. 富裕・繁荣（豊かさ）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv10','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：A — 忠诚・勇敢</span><br>
+    <strong>【解析】</strong> 在京剧中，不同颜色的脸谱代表不同性格：红色=忠诚勇敢（如关羽），黑色=刚直不阿（如包拯），白色=奸诈狡猾（如曹操），蓝色=刚猛，金色=神秘。<br>
+    <strong>💡 豆知識：</strong> 京剧は2006年に国家級非物質文化遺産に指定されました。全世界で最も影響力のある中国伝統演劇の一つです。<div class="vocab-note">「脸谱」（liǎnpǔ）＝顔彩 / 「忠诚」（zhōngchéng）＝忠誠</div>
+  </div>
+
+  <div class="trivia-box"><div class="trivia-box-title">🎉 趣味知識クイズ！</div><p>全27問のトリビア問題に挑戦してください。中国の地理・文化・生活についてもっと詳しくなれます。旅行や会話でぜひ活用してください！</p></div>
+
+  <!-- ===== Q11: 早餐 ===== -->
+  <div class="quiz-q" style="margin-top:1.5rem;"><span class="q-num">Q11.</span> 🍜 飲食習慣 — 北京の朝ごはんとして最も一般的なものは？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>あなたは北京のホテルで朝食を食べます。「我___一碗粥，两个包子。」（お粥一碗と饅頭二個食べたい。）</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv11" value="A"> A. 吃</label>
+    <label class="quiz-opt"><input type="radio" name="triv11" value="B"> B. 想</label>
+    <label class="quiz-opt"><input type="radio" name="triv11" value="C"> C. 要</label>
+    <label class="quiz-opt"><input type="radio" name="triv11" value="D"> D. 给</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv11','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 要</span><br>
+    <strong>【解析】</strong> 「我要…」＝「〜が欲しい／〜にする」は注文の基本表現。「想」も使えますが、「要」の方が直接的です。<div class="vocab-note">「粥」（zhōu）＝お粥 / 「包子」（bāozi）＝饅頭</div>
+  </div>
+
+  <!-- ===== Q12: 筷子禁忌 ===== -->
+  <div class="quiz-q"><span class="q-num">Q12.</span> 🥢 飲食習慣 — 箸のマナーで「絶対にやってはいけないこと」はどれ？</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="triv12" value="A"> A. 箸で皿を叩く</label>
+    <label class="quiz-opt"><input type="radio" name="triv12" value="B"> B. 箸を垂直に立てる</label>
+    <label class="quiz-opt"><input type="radio" name="triv12" value="C"> C. 他人を指す</label>
+    <label class="quiz-opt"><input type="radio" name="triv12" value="D"> D. 全部正しい</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv12','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：D — 全部正しい</span><br>
+    <strong>【解析】</strong> 箸の禁忌：<br>① 垂直に立てる → 葬儀で香を焚く姿に見える<br>② 皿を叩く → 乞食の行為<br>③ 人を指す → 失礼<br>④ 皿の上でさまよわせる → 「迷箸」（無作法）<div class="vocab-note">「筷」（kuài）＝箸 / 「禁忌」（jìnjì）＝禁忌</div>
+  </div>
+
+  <!-- ===== Q13: 八大菜系 ===== -->
+  <div class="quiz-q"><span class="q-num">Q13.</span> 🌶️ 飲食習慣 — 「麻婆豆腐」が発祥の料理流派はどれ？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv13" value="A"> A. 魯菜（山東）</label>
+    <label class="quiz-opt"><input type="radio" name="triv13" value="B"> B. 川菜（四川）</label>
+    <label class="quiz-opt"><input type="radio" name="triv13" value="C"> C. 粵菜（広東）</label>
+    <label class="quiz-opt"><input type="radio" name="triv13" value="D"> D. 蘇菜（江蘇）</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv13','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 川菜（四川料理）</span><br>
+    <strong>【解析】</strong> 中国の八大菜系（八つの代表的な料理流派）：<br>• 川菜（四川）→ 麻辣（花椒＋唐辛子）<br>• 魯菜（山東）→ 塩味中心・スープ<br>• 粤菜（広東）→ 新鮮・蒸し料理<br>• 苏菜（江蘇）→ 甘い・繊細<br>• 闽菜（福建）、浙菜（浙江）、湘菜（湖南）、徽菜（安徽）<div class="vocab-note">「麻婆豆腐」（mápó dòufu）＝四川省発祥の辛い豆腐料理</div>
+  </div>
+
+  <!-- ===== Q14: 喝茶礼仪 ===== -->
+  <div class="quiz-q"><span class="q-num">Q14.</span> 🍵 飲食習慣 — お茶を注いでくれた相手に感謝を示す「指タッピング」の方法は？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv14" value="A"> A. 親指を立てる</label>
+    <label class="quiz-opt"><input type="radio" name="triv14" value="B"> B. 両手を合わせてお辞儀</label>
+    <label class="quiz-opt"><input type="radio" name="triv14" value="C"> C. 二本指で机をトントン</label>
+    <label class="quiz-opt"><input type="radio" name="triv14" value="D"> D. 口笛を吹く</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv14','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 二本指で机をトントン</span><br>
+    <strong>【解析】</strong> 広州の「早茶」（ヤムチャ）文化から生まれたマナー：<br>• 平輩（同じ立場の人）→ 親指＋人差し指二本でトントン<br>• 目上の人 → 五本の指で丸を作って軽く叩く（お辞儀の代わり）<br>• 目下の人 → 一人指でトントン<div class="vocab-note">「叩桌礼」（kòuzhuōlǐ）＝机を叩いて感謝する礼</div>
+  </div>
+
+  <!-- ===== Q15: 广场舞 ===== -->
+  <div class="quiz-q"><span class="q-num">Q15.</span> 💃 日常生活 — 「广场舞」は何をする活動か？</div>
+  <div class="scenario-box"><div class="scenario-title">🎭 シナリオ</div>中国の公園に行くと、夜になると多くの人が音楽に合わせて踊っています。これが有名な「___」。週末には数百人が同時に踊ることもあります。</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="triv15" value="A"> A. 广场舞</label>
+    <label class="quiz-opt"><input type="radio" name="triv15" value="B"> B. 太极拳</label>
+    <label class="quiz-opt"><input type="radio" name="triv15" value="C"> C. 武术</label>
+    <label class="quiz-opt"><input type="radio" name="triv15" value="D"> D. 瑜伽</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv15','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：A — 广场舞</span><br>
+    <strong>【解析】</strong> 広場舞（Guǎngchǎngwǔ）＝「広場ダンス」の略。<br>• 中年女性を中心に全国で流行<br>• 夜の公園や広場で集団で踊る<br>• 健康維持と社交の手段<br>• 日本での「ウクレレ入門」と同等の人気<br>• 騒音問題でトラブルになることも<div class="vocab-note">「广」（guǎng）＝広い / 「场」（chǎng）＝場所 / 「舞」（wǔ）＝踊り</div>
+  </div>
+
+  <!-- ===== Q16: 快递网购 ===== -->
+  <div class="quiz-q"><span class="q-num">Q16.</span> 📦 日常生活 — 中国の配達速度として正しいのはどれ？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv16" value="A"> A. 通常一週間かかる</label>
+    <label class="quiz-opt"><input type="radio" name="triv16" value="B"> B. 都市部では当日或いは翌日配達</label>
+    <label class="quiz-opt"><input type="radio" name="triv16" value="C"> C. 手配が必要</label>
+    <label class="quiz-opt"><input type="radio" name="triv16" value="D"> D. 対面受取のみ</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv16','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 都市部では当日或いは翌日配達</span><br>
+    <strong>【解析】</strong> 中国の物流は世界最速クラス：<br>• 都市間配送：通常翌日到着<br>• 同城配送：当日配達サービスあり<br>• 主要平台：顺丰（Shùnfēng）、中通（Zhōngtōng）、京东物流<br>• 「包邮」（送料無料）が一般的<br>• 留守でも「菜鸟驿站」（集荷場所）で受け取り可能<div class="vocab-note">「快递」（kuàidì）＝宅配便 / 「包邮」（bāoyóu）＝送料無料</div>
+  </div>
+
+  <!-- ===== Q17: 午睡 ===== -->
+  <div class="quiz-q"><span class="q-num">Q17.</span> 😴 日常生活 — 中国の学校や職場でよく見られる習慣は？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv17" value="A"> A. 運動会</label>
+    <label class="quiz-opt"><input type="radio" name="triv17" value="B"> B. 読書時間</label>
+    <label class="quiz-opt"><input type="radio" name="triv17" value="C"> C. 午休（昼寝）</label>
+    <label class="quiz-opt"><input type="radio" name="triv17" value="D"> D. 放課後活動</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv17','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 午休（昼寝）</span><br>
+    <strong>【解析】</strong> 中国では「午休」（wǔxiū）＝昼休み・昼寝が一般的：<br>• 学校：午後1時〜2時に30分〜1時間の昼寝<br>• 職場：机の上で仮眠する人も多数<br>• 「中午不睡，下午崩溃」＝昼寝しないと午後は倒れる<br>• 日本では珍しい光景ですが、中国では日常です<div class="vocab-note">「午休」（wǔxiū）＝昼休み / 「崩溃」（bēngkuì）＝崩壊（疲れ果てる）</div>
+  </div>
+
+  <!-- ===== Q18: 红包数字 ===== -->
+  <div class="quiz-q"><span class="q-num">Q18.</span> 🧧 日常生活 — 紅包（ホンバオ）に入れる金額として「一番縁起が悪い」数字は？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv18" value="A"> A. 66元</label>
+    <label class="quiz-opt"><input type="radio" name="triv18" value="B"> B. 40元</label>
+    <label class="quiz-opt"><input type="radio" name="triv18" value="C"> C. 88元</label>
+    <label class="quiz-opt"><input type="radio" name="triv18" value="D"> D. 99元</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv18','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 40元</span><br>
+    <strong>【解析】</strong> 数字の意味：<br>• 6（liù）→ 「流」（スムーズ）→ 大吉<br>• 8（bā）→ 「发」（豊かになる）→ 最高吉祥<br>• 9（jiǔ）→ 「久」（長い）→ 長寿<br>• 4（sì）→ 「死」（死ぬ）→ 大凶！絶対に避ける<br>• 縁起の良い金額：66元、88元、168元（一路发＝道中繁栄）、999元<div class="vocab-note">「红包」（hóngbāo）＝赤い封筒にお金を入れた祝儀</div>
+  </div>
+
+  <!-- ===== Q19: 一线城市房价 ===== -->
+  <div class="quiz-q"><span class="q-num">Q19.</span> 🏠 経済収入 — 中国の「一線都市」でマンションを買うには、平均的な価格帯は？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv19" value="A"> A. 1万〜2万元（約20〜40万円）</label>
+    <label class="quiz-opt"><input type="radio" name="triv19" value="B"> B. 5万〜8万元（約100〜160万円）</label>
+    <label class="quiz-opt"><input type="radio" name="triv19" value="C"> C. 5万〜10万元/㎡（約100〜200万円/㎡）</label>
+    <label class="quiz-opt"><input type="radio" name="triv19" value="D"> D. 無料</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv19','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 5万〜10万元/㎡</span><br>
+    <strong>【解析】</strong> 一線都市（北上广深：北京・上海・広州・深圳）の不動産価格は非常に高い：<br>• 上海・北京：8万〜15万元/㎡（富裕層エリアは20万元超え）<br>• 広州・深圳：4万〜8万元/㎡<br>• 二線都市：1万〜3万元/㎡<br>• 平均年収との格差が大きく、「房子」（家）を持つことが一大目標<div class="vocab-note">「平方米」（píngfāngmǐ）＝平方メートル / 「房价」（fángjià）＝家賃・不動産価格</div>
+  </div>
+
+  <!-- ===== Q20: 平均工资 ===== -->
+  <div class="quiz-q"><span class="q-num">Q20.</span> 💰 経済収入 — 中国の都市部平均月収（大まかな目安）は？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv20" value="A"> A. 1000元前後</label>
+    <label class="quiz-opt"><input type="radio" name="triv20" value="B"> B. 8000〜12000元前後</label>
+    <label class="quiz-opt"><input type="radio" name="triv20" value="C"> C. 30000元以上</label>
+    <label class="quiz-opt"><input type="radio" name="triv20" value="D"> D. 500元前後</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv20','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 8000〜12000元前後</span><br>
+    <strong>【解析】</strong> 都市部の平均月収（2024年目安）：<br>• 北京・上海：12000〜15000元<br>• 広州・深圳：10000〜13000元<br>• 二線都市：6000〜9000元<br>• 農村地域：3000〜5000元<br>• IT業界：20000〜40000元（エンジニアの場合）<br>※ 地域差・業種差が非常に大きいです<div class="vocab-note">「工资」（gōngzī）＝給料 / 「平均」（píngjūn）＝平均</div>
+  </div>
+
+  <!-- ===== Q21: 移动支付 ===== -->
+  <div class="quiz-q"><span class="q-num">Q21.</span> 📱 経済生活 — 中国で現金が使えない主な場所はどこ？</div>
+  <div class="quiz-options" data-answer="D">
+    <label class="quiz-opt"><input type="radio" name="triv21" value="A"> A. 高級ホテルのみ</label>
+    <label class="quiz-opt"><input type="radio" name="triv21" value="B"> B. 地下鉄のみ</label>
+    <label class="quiz-opt"><input type="radio" name="triv21" value="C"> C. 田舎の市場のみ</label>
+    <label class="quiz-opt"><input type="radio" name="triv21" value="D"> D. 屋台から百貨店までほぼ全て</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv21','D')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：D — 屋台から百貨店までほぼ全て</span><br>
+    <strong>【解析】</strong> 中国のモバイル決済は極めて普及：<br>• 微信支付（WeChat Pay）と支付宝（Alipay）が二大プラットフォーム<br>• 路地裏の屋台でもQRコード決済対応<br>• 「扫一扫」（スキャン）で即座に支払い完了<br>• 現金を持っていない若者が多い<br>• ただし、辺境地帯や高齢者はまだ現金を使う場合あり<div class="vocab-note">「移动支付」（yídòng zhīfù）＝モバイル決済 / 「扫码」（sǎomǎ）＝QRコードスキャン</div>
+  </div>
+
+  <!-- ===== Q22: 粤语 ===== -->
+  <div class="quiz-q"><span class="q-num">Q22.</span> 🗣️ 方言 — 「粤语（广东话）」の特徴として正しいのは？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv22" value="A"> A. 声調は四つしかない</label>
+    <label class="quiz-opt"><input type="radio" name="triv22" value="B"> B. 北京語と同じ漢字を使う</label>
+    <label class="quiz-opt"><input type="radio" name="triv22" value="C"> C. 声調が6〜9あり、北京語より複雑</label>
+    <label class="quiz-opt"><input type="radio" name="triv22" value="D"> D. 文字はアルファベットを使う</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv22','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 声調が6〜9あり、北京語より複雑</span><br>
+    <strong>【解析】</strong> 広東語（粤语 yuèyǔ）の特徴：<br>• 声調：6〜9個（北京語は4個）<br>• 使用地域：広東省（広州・深圳）、香港、マカオ<br>• 映画・音楽を通じて世界中に知られている<br>• 「九声六调」（9つの声調・6つの調）が基本<br>• 北京語とは互いに理解できない場合が多い<div class="vocab-note">「粤语」（yuèyǔ）＝広東語 / 「声調」（shēngdiào）＝声調（tones）</div>
+  </div>
+
+  <!-- ===== Q23: 北方vs南方 ===== -->
+  <div class="quiz-q"><span class="q-num">Q23.</span> 🌏 方言 — 中国語の「北方語」と「南方語」の大きな違いは？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv23" value="A"> A. 文字が違う</label>
+    <label class="quiz-opt"><input type="radio" name="triv23" value="B"> B. 発音・声調・語彙が異なる</label>
+    <label class="quiz-opt"><input type="radio" name="triv23" value="C"> C. 文法構造が違う</label>
+    <label class="quiz-opt"><input type="radio" name="triv23" value="D"> D. 読む方向が違う</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv23','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 発音・声調・語彙が異なる</span><br>
+    <strong>【解析】</strong> 中国語の方言マップ：<br>• 北方語（普通话ベース）→ 比較的均一、理解しやすい<br>• 南方語（粤・閩・呉・湘・贛・客語）→ 各々独立した言語とも呼べる<br>• 同じ漢字でも発音が全く異なる<br>• 例：「吃饭」→ 北方：chīfàn / 広東：sik6 faan6 / 閩南：tsia̍h-pn̄g<br>• 共通語（普通話）は教育・メディアで統一されています<div class="vocab-note">「方言」（fāngyán）＝方言 / 「普通话」（pǔtōnghuà）＝標準語（普通話）</div>
+  </div>
+
+  <!-- ===== Q24: 桂林山水 ===== -->
+  <div class="quiz-q"><span class="q-num">Q24.</span> 🏞️ 自然景观 — 「桂林山水甲天下」という言葉の意味は？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="triv24" value="A"> A. 桂林の風景は天下で一番美しい</label>
+    <label class="quiz-opt"><input type="radio" name="triv24" value="B"> B. 桂林は天下で一番寒い</label>
+    <label class="quiz-opt"><input type="radio" name="triv24" value="C"> C. 桂林は天下で一番広い</label>
+    <label class="quiz-opt"><input type="radio" name="triv24" value="D"> D. 桂林は天下で一番忙しい</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv24','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：A — 桂林の風景は天下で一番美しい</span><br>
+    <strong>【解析】</strong> 桂林（Guìlín）の絶景：<br>• 「甲天下」＝天下で第一位<br>• 特徴：カルスト地形の奇岩と漓江の緑色水<br>• 20元紙幣の裏側の背景モデル<br>• 陽朔（Yángshuò）での筏漕が人気<br>• 世界観光都市に指定されています<div class="vocab-note">「桂林」（Guìlín）＝広西チワン族自治区の都市 / 「甲」（jiǎ）＝第一位</div>
+  </div>
+
+  <!-- ===== Q25: 张家界 ===== -->
+  <div class="quiz-q"><span class="q-num">Q25.</span> ⛰️ 自然景观 — 映画『アバター』の飛行山のモデルになった山は？</div>
+  <div class="quiz-options" data-answer="C">
+    <label class="quiz-opt"><input type="radio" name="triv25" value="A"> A. 黄山</label>
+    <label class="quiz-opt"><input type="radio" name="triv25" value="B"> B. 泰山</label>
+    <label class="quiz-opt"><input type="radio" name="triv25" value="C"> C. 张家界（武陵源）</label>
+    <label class="quiz-opt"><input type="radio" name="triv25" value="D"> D. 峨眉山</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv25','C')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：C — 张家界（武陵源）</span><br>
+    <strong>【解析】</strong> 張家界（Zhāngjiājiè）：<br>• 湖南省にある世界自然遺産<br>• 3000本以上の石柱がそびえる幻想的な景色<br>• アバターのパンデモニア山のモデルと言われている<br>• 世界最長のガラス製空中歩道がある<br>• 天井山（Tiānzhēng shān）の天然アーチも見事<div class="vocab-note">「张家界」（Zhāngjiājiè）＝湖南省の名山 / 「石英砂岩」（shīyīng shàyán）＝石英砂岩</div>
+  </div>
+
+  <!-- ===== Q26: 长江vs黄河 ===== -->
+  <div class="quiz-q"><span class="q-num">Q26.</span> 🌊 自然景观 — 中国の二大河川「长江」と「黄河」の違いとして正しいのは？</div>
+  <div class="quiz-options" data-answer="B">
+    <label class="quiz-opt"><input type="radio" name="triv26" value="A"> A. 黄河の方が長い</label>
+    <label class="quiz-opt"><input type="radio" name="triv26" value="B"> B. 长江の方が長い（6300km）</label>
+    <label class="quiz-opt"><input type="radio" name="triv26" value="C"> C. 両方とも同じ長さ</label>
+    <label class="quiz-opt"><input type="radio" name="triv26" value="D"> D. 黄河は内陸河川</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv26','B')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：B — 长江の方が長い（約6300km）</span><br>
+    <strong>【解析】</strong> 中国の二大河川：<br>• 長江（Chángjiāng）→ 約6300km、アジア最長、世界第三位<br>• 黄河（Huáng Hé）→ 約5464km、中華文明の母なる川<br>• 長江：南側、水量豊富、貿易路線<br>• 黄河：北側、黄土高原を流れ、歴史的名所が多い<br>• 三峡ダム（Sanxiá）は長江にあります<div class="vocab-note">「长江」（Chángjiāng）＝長江 / 「黄河」（Huáng Hé）＝黄河</div>
+  </div>
+
+  <!-- ===== Q27: 双十一 ===== -->
+  <div class="quiz-q"><span class="q-num">Q27.</span> 🛒 経済生活 — 「双十一」（11月11日）は何の日か？</div>
+  <div class="quiz-options" data-answer="A">
+    <label class="quiz-opt"><input type="radio" name="triv27" value="A"> A. 世界最大のオンラインショッピングセール</label>
+    <label class="quiz-opt"><input type="radio" name="triv27" value="B"> B. 建国記念日</label>
+    <label class="quiz-opt"><input type="radio" name="triv27" value="C"> C. 教師の日</label>
+    <label class="quiz-opt"><input type="radio" name="triv27" value="D"> D. 子供の日</label>
+  </div>
+  <button class="btn-check" onclick="checkOpt('triv27','A')">✅ 正解をチェック</button>
+  <div class="answer-reveal">
+    <span class="ans-label">正解：A — 世界最大のオンラインショッピングセール</span><br>
+    <strong>【解析】</strong> 双11（Shuāng Yī Yī）＝ダブルワンデー：<br>• 元々は大学生の「光棍节」（独身の日）が由来<br>• 天猫（Tmall）が2009年に商業イベント化した<br>• 2023年の売上高：約5000億元（約10兆円）<br>• アメリカのブラックフライデーの7倍以上<br>• Amazon Prime Dayの20倍規模<div class="vocab-note">「双十一」（shuāng yī yī）＝11月11日 / 「光棍节」（guānggùn jié）＝独身者デー</div>
+  </div>
+
+  <div class="trivia-box"><div class="trivia-box-title">🎉 趣味知識クイズ終了！</div><p>全27問のトリビア問題を完了しました！中国の地理・文化・生活についてもっと詳しくなりましたね。旅行や会話でぜひ活用してください！</p></div>
+</section>
+</main>
+</body>
+</html>
