@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国語入門 文化ガイド（日中対比）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f4f6fb; --surface: #ffffff; --sidebar-bg: #1e2235; --sidebar-w: 268px;
+      --primary: #c0392b; --accent: #e67e22; --green: #27ae60; --orange: #d35400;
+      --purple: #8e44ad; --teal: #16a085; --red: #c0392b; --jp: #2980b9;
+      --jp-bg: #ebf5fb; --jp-border: #aed6f1; --text: #1e1e2e; --muted: #6b7280;
+      --border: #e5e7eb; --radius: 12px; --shadow: 0 2px 14px rgba(0,0,0,.08);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; display: flex; min-height: 100vh; }
+    .sidebar { width: var(--sidebar-w); min-width: var(--sidebar-w); background: var(--sidebar-bg); color: #c8cfe8; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; z-index: 100; }
+    .sidebar-header { padding: 1.4rem 1.4rem .9rem; border-bottom: 1px solid #2e3554; }
+    .sidebar-header .flags { font-size: 1.4rem; margin-bottom: .3rem; }
+    .sidebar-header h1 { font-size: .9rem; font-weight: 800; color: #fff; line-height: 1.4; }
+    .sidebar-header p { font-size: .7rem; color: #7a85a8; margin-top: .2rem; }
+    .toc-section-label { padding: .8rem 1.4rem .25rem; font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #4a5580; }
+    .toc-item { display: flex; align-items: center; gap: .5rem; padding: .38rem 1.4rem; font-size: .78rem; color: #9aa3c4; text-decoration: none; border-left: 3px solid transparent; transition: background .15s, color .15s; }
+    .toc-item:hover, .toc-item.active { background: #272d45; color: #fff; border-left-color: var(--primary); }
+    .toc-item .num { font-size: .65rem; background: #2e3554; color: #6a75a4; border-radius: 4px; padding: .08rem .3rem; font-weight: 700; min-width: 22px; text-align: center; flex-shrink: 0; }
+    .toc-item.active .num { background: var(--primary); color: #fff; }
+    .sidebar-legend { margin: 1rem 1.4rem .8rem; background: #272d45; border-radius: 8px; padding: .65rem .9rem; font-size: .72rem; }
+    .sidebar-legend p { color: #6a75a4; margin-bottom: .35rem; font-weight: 700; }
+    .legend-item { display: flex; align-items: center; gap: .4rem; margin: .2rem 0; color: #9aa3c4; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .main { flex: 1; padding: 2rem 1.8rem 4rem; max-width: 920px; min-width: 0; }
+    .page-title { margin-bottom: 2rem; }
+    .page-title h2 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-title p { color: var(--muted); font-size: .9rem; margin-top: .3rem; }
+    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.6rem 1.8rem; margin-bottom: 2rem; border-top: 4px solid var(--primary); scroll-margin-top: 1.5rem; }
+    .card.c-green { border-top-color: var(--green); } .card.c-orange { border-top-color: var(--orange); }
+    .card.c-purple { border-top-color: var(--purple); } .card.c-pink { border-top-color: var(--accent); }
+    .card.c-teal { border-top-color: var(--teal); }
+    .unit-header { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; margin-bottom: .8rem; }
+    .unit-num { font-size: .72rem; font-weight: 800; background: var(--bg); color: var(--muted); border-radius: 6px; padding: .12rem .5rem; }
+    .unit-title { font-size: 1.05rem; font-weight: 800; }
+    .unit-title .zh-sub { font-size: .88rem; color: var(--primary); font-weight: 700; margin-left: .3rem; }
+    .tip { background: #fffbe6; border: 1px solid #fde68a; border-radius: 8px; padding: .55rem 1rem; font-size: .86rem; color: #92400e; margin-bottom: .8rem; }
+    .tip::before { content: "💡 "; }
+    .read-box { background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%); border: 1.5px solid #b8c9f0; border-radius: 10px; padding: .85rem 1.1rem; margin: .6rem 0 1rem; font-size: .88rem; line-height: 1.8; }
+    .read-box-title { font-size: .76rem; font-weight: 800; color: #3b5998; margin-bottom: .4rem; }
+    .trivia-box { background: linear-gradient(135deg, #fff5f5 0%, #ffe8ec 100%); border: 1.5px solid #f5b7c8; border-radius: 10px; padding: .75rem 1rem; margin: .75rem 0; font-size: .86rem; line-height: 1.75; }
+    .trivia-box-title { font-size: .74rem; font-weight: 800; color: #c0392b; margin-bottom: .35rem; }
+    .badge { display: inline-block; padding: .1rem .45rem; border-radius: 20px; font-size: .68rem; font-weight: 700; background: var(--primary); color: #fff; }
+    .badge.green { background: var(--green); } .badge.orange { background: var(--orange); }
+    .badge.purple { background: var(--purple); } .badge.teal { background: var(--teal); }
+    .jp-box { background: var(--jp-bg); border: 1.5px solid var(--jp-border); border-radius: 10px; padding: .9rem 1.1rem; margin: .8rem 0; }
+    .jp-box-title { font-size: .75rem; font-weight: 800; color: var(--jp); margin-bottom: .45rem; }
+    .cn-box { background: linear-gradient(135deg, #fef9e7 0%, #fdf2e9 100%); border: 1.5px solid #f0c27a; border-radius: 10px; padding: .9rem 1.1rem; margin: .8rem 0; }
+    .cn-box-title { font-size: .75rem; font-weight: 800; color: var(--primary); margin-bottom: .45rem; }
+    .toc-fab { display: none; position: fixed; bottom: 1.15rem; right: 1.15rem; z-index: 200; align-items: center; gap: .35rem; padding: .55rem .95rem; border: none; border-radius: 999px; background: var(--sidebar-bg); color: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.28); }
+    .toc-backdrop { display: none; position: fixed; inset: 0; background: rgba(15,18,30,.5); z-index: 150; opacity: 0; transition: opacity .22s ease; }
+    .sidebar-close { display: none; position: absolute; top: .65rem; right: .65rem; width: 2rem; height: 2rem; border: none; border-radius: 8px; background: #2e3554; color: #c8cfe8; font-size: 1.1rem; cursor: pointer; }
+    @media (max-width: 900px) { body { flex-direction: column; } body.toc-open { overflow: hidden; }
+      .toc-fab { display: flex; } .toc-backdrop { display: block; pointer-events: none; }
+      body.toc-open .toc-backdrop { opacity: 1; pointer-events: auto; }
+      .sidebar { width: min(288px, 88vw); position: fixed; top: 0; left: 0; z-index: 160; transform: translateX(-110%); transition: transform .25s ease; box-shadow: 4px 0 28px rgba(0,0,0,.22); }
+      body.toc-open .sidebar { transform: translateX(0); } .sidebar-close { display: block; }
+      .main { padding: 1.2rem 1rem 4.75rem; width: 100%; }
+    }
+  /* === Chapter 0 クイックレビュー === */
+  .card.c-gold { border-top-color: #c9a98e; background: linear-gradient(135deg, #fafaf7 0%, #f5f2ed 100%); }
+  .review-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .review-mini { background: #fcfcf9; border: 1px solid #e6dfd6; border-radius: 8px; padding: .4rem .65rem; font-size: .8rem; line-height: 1.5; color: #444; }
+  .review-mini strong { color: #c0392b; font-size: .82rem; }
+  .tip { }
+  @media (max-width: 600px) { .review-grid-2col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<button type="button" class="toc-fab" id="tocFab" aria-label="目次を開く">☰ 目次</button>
+<div class="toc-backdrop" id="tocBackdrop" aria-hidden="true"></div>
+<nav class="sidebar" id="sidebar" aria-label="目次">
+  <button type="button" class="sidebar-close" id="tocClose">×</button>
+  <div class="sidebar-header"><div class="flags">🇨🇳 🇯🇵</div><h1>中国文化ガイド<br>文化と中日対比</h1><p>非考级用 · 日常生活編</p></div>
+  <div class="toc-section-label">目次</div>
+  <a href="#c0" class="toc-item"><span class="num">0</span>⭐ 文化一覧</a>
+  <a href="#c1" class="toc-item"><span class="num">1</span>挨拶と呼び方</a>
+  <a href="#c2" class="toc-item"><span class="num">2</span>食文化とテーブルマナー</a>
+  <a href="#c3" class="toc-item"><span class="num">3</span>家族と親族の呼び方</a>
+  <a href="#c4" class="toc-item"><span class="num">4</span>伝統的な祭り</a>
+  <a href="#c5" class="toc-item"><span class="num">5</span>面子と人情社会</a>
+  <a href="#c6" class="toc-item"><span class="num">6</span>贈り物の文化</a>
+  <a href="#c7" class="toc-item"><span class="num">7</span>数字と色の迷信</a>
+  <a href="#c8" class="toc-item"><span class="num">8</span>ボディランゲージ</a>
+  <a href="#c9" class="toc-item"><span class="num">9</span>お茶の文化</a>
+  <a href="#c10" class="toc-item"><span class="num">10</span>公共のマナー</a>
+  <a href="#c11" class="toc-item"><span class="num">11</span>健康と養生</a>
+  <a href="#c12" class="toc-item"><span class="num">12</span>職場のルール</a>
+  <a href="#c13" class="toc-item"><span class="num">13</span>社会心理：氛围感 vs 反内耗</a>
+  <div class="sidebar-legend"><p>記号凡例</p>
+    <div class="legend-item"><span class="legend-dot" style="background:#f39c12"></span> 💡 = 豆知識</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#2980b9"></span> 🇯🇵 = 日本との違い</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#c0392b"></span> ⚠️ = 注意点</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#c0392b"></span> ★ = 文化背景</div>
+  </div>
+</nav>
+<main class="main">
+  <div class="page-title"><h2>🏮 中国文化ガイド</h2><p>HSK試験のためではない。もっと深く、もっと楽しく。</p></div>
+<section class="card c-gold" id="c0">
+  <div class="unit-header"><span class="unit-num">Chapter 0</span><span class="unit-title">⭐ 中国文化トピック一覧<span class="zh-sub">wénhuà yīlǎn</span></span></div>
+  <div class="tip" style="border-left-color:#c9a98e;">全13テーマを一言 + キーワードで俯瞰。詳細は各Chapterへ。</div>
+  <div class="review-grid-2col">
+    <div class="review-mini"><strong>C1</strong> 挨拶と呼び方 — 你好/您好、「吃了吗？」は社交辞令</div>
+    <div class="review-mini"><strong>C2</strong> 食文化 — 円卓・取り分け・乾杯マナー・箸の禁忌</div>
+    <div class="review-mini"><strong>C3</strong> 家族呼称 — 父方/母方で呼称が変わる複雑体系</div>
+    <div class="review-mini"><strong>C4</strong> 伝統的祭り — 春節・中秋節・端午節・元宵節</div>
+    <div class="review-mini"><strong>C5</strong> 面子と人情 — 面子を重んじる人間関係のルール</div>
+    <div class="review-mini"><strong>C6</strong> 贈り物の文化 — 時計・傘・緑帽はタブー</div>
+    <div class="review-mini"><strong>C7</strong> 数字と色 — 8=吉 4=凶、赤=福 白=喪</div>
+    <div class="review-mini"><strong>C8</strong> ボディランゲージ — 頷き=同意、拍手=感謝</div>
+    <div class="review-mini"><strong>C9</strong> お茶の文化 — 茶芸・工夫茶・もてなしの基本</div>
+    <div class="review-mini"><strong>C10</strong> 公共マナー — 割り込み・大声・順番の概念</div>
+    <div class="review-mini"><strong>C11</strong> 健康と養生 — 中医・薬膳・温かい水習慣</div>
+    <div class="review-mini"><strong>C12</strong> 職場のルール — 关系・飲み会・上司への敬称</div>
+    <div class="review-mini"><strong>C13</strong> 社会心理 — 氛围感 vs 反内耗の現代中国</div>
+  </div>
+</section>
+<section class="card c-red" id="c1">
+  <div class="unit-header"><span class="unit-num">Chapter 1</span><span class="unit-title">挨拶と呼び方<span class="zh-sub">问候与称呼</span></span></div>
+  <div class="tip">中国語の挨拶は日本語より率直。「你好」は「こんにちは」と同じ。年配者には「您好」と敬語を使う。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：挨拶の文化</div><p>中国人は初対面の人にもよく<strong>「吃了吗？」</strong>（もう食べた？）と尋ねます。これは本心の食事の問いかけではなく、日本の<strong>「お疲れ様です」</strong>に近い社交辞令です。返事は「吃了！」か「还没呢。」で十分。</p>
+  <p><strong>年齢による呼び分け：</strong><br>• 若者／同年代 → 「你好」（ニーハオ）<br>• 年配男性 → 「叔叔」（シューシュー／おじさん）または「大爷」（ダーイエ／おじいちゃん）<br>• 年配女性 → 「阿姨」（アーイー／おばさん）または「奶奶」（ナイナイ／おばあちゃん）<br>• 先生・医者・弁護士など → 「老师」（ラーオス）が万能</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：名刺交換のマナー</div><p>ビジネスシーンでは<strong>名刺交換</strong>が必須。以下のルールを守ってください：<br><br>① 名刺は<strong>両手</strong>で渡す・受け取る<br>② 受け取ったら<strong>すぐに読む</strong>（名前を確認して尊重を示す）<br>③ 机の上にそのまま置かない（折り返したりしない）<br>④ 名刺入れやポケットに<strong>すぐしまう</strong><br><br>日本と似ていますが、中国では<strong>WeChat（微信）のQRコードを即座に見せる</strong>ことも多いです。「扫码加个微信吧」（スキャンしてWeChatを追加しましょう）は現代の挨拶の一部です。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：「お久しぶりです」「お元気ですか」→ 丁寧な表現が基本<br>🇨🇳 中国：「吃了吗？」「去哪儿啊？」→ 直接的な日常質問でも挨拶になる<br><br>日本人からすると「私人間空間じゃない？」と思うかもしれませんが、中国では<strong>近所付き合いの温かさ</strong>として受け取られます。<br><br>また、名刺交換は日本ほど厳格ではありません。カジュアルな場面では<strong>「微信号是多少？」</strong>（WeChat IDは何ですか？）が主流になりつつあります。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ 注意点</div><p>「再见」（さようなら）は<strong>外出時にだけ</strong>使います。食堂や店内に留まる場合は「慢走」や「拜拜」を使います。日本でお見送りの「どうぞお気軽にお越しください」に相当します。</p></div>
+</section>
+<section class="card c-orange" id="c2">
+  <div class="unit-header"><span class="unit-num">Chapter 2</span><span class="unit-title">食文化とテーブルマナー<span class="zh-sub">饮食文化与餐桌礼仪</span></span></div>
+  <div class="tip">中国の飲食語彙は地域差が大きい。ここで紹介するのは都市部の一般的な習慣です。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：共有料理（共餐制）</div><p>日本や西洋では<strong>個別膳（一人前）</strong>が一般的ですが、中国では<strong>円卓＋共用皿</strong>が基本。 dishes をテーブル中央に置き、各自で取り分けします。これは<strong>団結と和気藹々</strong>を表す重要な文化です。</p>
+  <p><strong>主なマナー：</strong><br>• 一番年長者または贵宾が最初に箸を持つ<br>• 自分の皿に取り分けてから食べる（直接食べない）<br>• 料理を回す時は時計回り<br>• 残すのは「もてなしが足りない」と解釈されるので注意</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：座席のルール</div><p>円卓での座席には明確な序列があります：<br><br><table><tr><th>位置</th><th>役割</th></tr><tr><td>門正面の席</td><td>主賓（最も尊敬される人）</td></tr><tr><td>主賓の右隣</td><td>副賓</td></tr><tr><td>主賓の左隣</td><td>第3位</td></tr><tr><td>扉反対側の席</td><td>主人（会計役）</td></tr></table><br>招待された場合は<strong>主人 opposite の席（最も下位）に座らないよう</strong>、少し迷ったら相手が誘うまで立ちましょう。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：酒の付き合い（劝酒文化）</div><p>中国の宴会では<strong>乾杯（干杯 gānbēi）</strong>が頻繁に行われます。「干杯」はグラスに残さず飲み干す意味。<br><br>• 年長者が乾杯の音頭を取る<br>• グラスは相手のものより<strong>低く合わせる</strong>（謙譲の証）<br>• 拒否する時は「我不会喝酒」（飲めません）と事前に言う<br>• 注ぎ足す時は相手のグラスを自分で持つ（注ぐ側が全て行う）</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ 箸の禁忌</div><p><strong>絶対にやってはいけないこと：</strong><br>1. 箸をご飯の上に垂直に立てない（葬儀で香を焚く姿に見える）<br>2. 人を指さない（失礼）<br>3. 皿の上でさまよわせない（迷箸＝無作法）<br>4. 他人の箸に当たる（縁起が悪い）<br>5. 料理を箸で突き刺さない<br>6. グラスを鳴らして注ぐのを促す（失礼）</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：個膳・一汁三菜・静かに食べる<br>🇨🇳 中国：共用料理・大皿・会話しながら食べる<br><br>中国では<strong>「大声で食べる」「乾杯の音頭」</strong>が歓迎の証。日本の「静粛」文化とは真逆ですが、これは<strong>「楽しい雰囲気づくり」</strong>です。<br><br>また、日本では「おつがい」（お持ち帰り）を持ち歩く袋を持参しますが、中国では<strong>剩菜（残り物）を持ち帰る包紙</strong>を持ち歩いている人もいます。「打包」（だーば̀オ／パックして）と店員に言えば喜んで対応してくれます。</p></div>
+</section>
+<section class="card c-purple" id="c3">
+  <div class="unit-header"><span class="unit-num">Chapter 3</span><span class="unit-title">家族と親族の呼び方<span class="zh-sub">家庭与亲属称谓</span></span></div>
+  <div class="tip">国名＋「人」で国籍を表す。家居語は日本語と比べて非常に複雑です。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：親族呼称の複雑さ</div><p>中国語の親族呼称は<strong>父方・母方・年齢・性別</strong>によって使い分けられます。<br><br>• 「叔叔」＝父の弟 / 「伯伯」＝父の兄<br>• 「姑姑」＝父の姉妹 / 「舅舅」＝母の兄弟<br>• 「姨妈」＝母の姉妹 / 「姨夫」＝姨妈の夫<br><br>日本語の「おじ・おば」一つで済むものを、中国語では<strong>何種類にも分けなければなりません</strong>。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：現代の簡略化</div><p>都市部では呼称がだんだん簡略化されています：<br><br>• 多くの若者は「叔叔」「阿姨」を万能敬称として使う<br>• 年配男性 → 「爷爷」（おじいちゃん）/ 年配女性 → 「奶奶」（おばあちゃん）<br>• 同年代の男性 → 「哥哥」（げーげ／おにいさん）/ 女性 → 「姐姐」（じぇじぇ／ねえさん）<br><br>ただし田舎や伝統的な家では、依然として正確な呼称が求められます。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：おじ・おば・叔父・伯父（やや形式的）<br>🇨🇳 中国：叔叔・伯伯・姑父・舅妈… 細分化されている<br><br>これは<strong>儒教の「長幼有序」</strong>（年長者を尊重する）思想に根ざしています。中国では初めて会う相手にも、適切な呼称を使うことで<strong>距離感を縮める</strong>ことができます。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 実用的ヒント</div><p>旅行者や留学生にとって最も便利なのは<strong>「阿姨」（阿姨 āyí）</strong>です。中年の女性に対して幅広く使える敬称で、コンビニ店員・隣人・学校の先生までカバーします。日本での「おばさん」感覚ですが、<strong>敬語として使えます</strong>。</p></div>
+</section>
+<section class="card c-pink" id="c4">
+  <div class="unit-header"><span class="unit-num">Chapter 4</span><span class="unit-title">伝統的な祭り<span class="zh-sub">传统节日</span></span></div>
+  <div class="tip">中国の祭りは農耕暦に基づいています。旧暦（陰暦）で計算されます。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：三大祭り</div><p><strong>① 春节（春節）— 旧正月</strong><br>最も重要な祭り。家族全員で集まり、餃子を食べ、紅包（お年玉）を交換します。世界中から故郷へ戻る<strong>「春运」（春運・大量移動）</strong>が発生し、世界最大の人間移動イベントになります。</p>
+  <p><strong>② 中秋节（中秋節）— 満月の夜</strong><br>月見の夕べ。月饼（ちゅうがつけん／ムーンケーキ）を食べ、家族で月を見ます。日本のお月見と似ていますが、中国では<strong>「团圆」（一家団欒）</strong>を特に重視します。</p>
+  <p><strong>③ 端午节（端午の節句）— 龍舟競漕</strong><br>屈原を偲ぶ祭り。粽子（ちぎょうず／チンズ）というもち米の包み物を作り、龍舟（ドラゴンボート）の競技を行います。雄黄酒（ゆうしこう）を飲む習慣もあります。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：その他の主要祭り</div><p><strong>元宵节（元宵節）— 灯籠まつり</strong><br>春節の15日後。汤团（とうたん）を食べ、街中に灯籠が飾られます。<br><br><strong>清明节（清明節）— 墓参り</strong><br>太陽暦4月4日または5日。祖先の墓を掃除し、野菜の饺子（青团／チントゥアン）を食べます。<br><br><strong>七夕节（きしせつ）— 織姫・彦星</strong><br>旧暦7月7日。日本の七夕に似ていますが、中国では<strong>恋人たちの日</strong>としてより親しまれています。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：祝日は国民の祝日で固定日付が多い<br>🇨🇳 中国：旧暦に基づく移動祝日が多数<br><br>日本が<strong>「天皇の誕生日」</strong>を祝うように、中国は<strong>「季節と祖先への敬意」</strong>を祝います。また、中国の祭りは<strong>長期休暇（黄金周）</strong>とセットになっており、旅行や帰省が一大行事です。<br><br>春節の連休（約7日間）は日本のお盆＋年末年始を合わせたような規模です。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 红包（ホンバオ）の秘密</div><p>红包装ったお金は<strong>「压岁钱」（歳銭）</strong>として、大人から子供へ贈られます。最近は<strong>WeChat（微信）でデジタル红包</strong>を送ることも増えています。受け取る時は両手で受け、開けないのがマナーです。<br><br>金額の相場：<br>• 子供 → 100〜500元<br>• 友人・同僚 → 200〜1000元<br>• 結婚式 → 500〜5000元以上（縁の良い数字が好まれる：666, 888など）</p></div>
+</section>
+<section class="card c-teal" id="c5">
+  <div class="unit-header"><span class="unit-num">Chapter 5</span><span class="unit-title">面子と人情社会<span class="zh-sub">面子与人情社会</span></span></div>
+  <div class="tip">感情や気持ち、態度を表す言葉。中国人的コミュニケーションは<strong>間接的</strong>な場合が多いです。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：面子（ミエンツ）とは</div><p><strong>面子（miànzi）</strong>は「顔・体面・評判」を意味し、中国社会の最も重要な概念の一つです。<br><br>• 人を叱らない → 「面子を潰す（丢面子）」<br>• 褒めてもらう → 「面子がある（有面子）」<br>• 断られる → 「面子がない（没面子）」<br><br>中国人は<strong>「面子を保つ」</strong>ために、直接「いいえ」と言わずに婉曲な断り方をします。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：面子の実例</div><p><strong>① 公共の場で叱らない</strong><br>子供が暴れても、日本なら「すみません」と謝りますが、中国では<strong>そっと抱き上げて外に出る</strong>ことが多い。誰の前で叱っても「面子を失う」からです。<br><br><strong>② 断り方のコツ</strong><br>直接的な拒否を避ける：<br>• 「改天再说」（また今度）→ 実際には来ない<br>• 「我考虑一下」（考えます）→ 断りの婉曲表現<br>• 「不太方便」（あまり都合が」→ 遠回しな拒否<br><br>これらの表現は<strong>相手の面子を保ちながら</strong>断るためのものです。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：关系（グアンシー）</div><p><strong>关系（guānxi）</strong>は「人間関係・コネクション」を意味します。仕事を得る・問題解決・サービスを受ける際に<strong>信頼できる知人の存在</strong>が大きな役割を果たします。<br><br>これは単なる利権操作ではなく、<strong>長期的な信頼関係の構築</strong>そのものです。一度関係を築けば、相互扶助の仕組みとして機能します。<br><br><strong>人情（rénqíng）</strong>という概念もあります。「借人情」（借りを作る）→「还人情」（返しをする）という<strong>社会的債務の循環</strong>です。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：「建前・本音」→ 表面的な礼儀<br>🇨🇳 中国：「面子・关系」→ 社会的な信用・ネットワーク<br><br>日本も「空気を読む」文化がありますが、中国の面子文化は<strong>もっとシステミック</strong>です。ビジネスや日常生活において、<strong>「誰を知っているか」</strong>が結果に大きく影響します。<br><br>ただし、若世代の間では<strong>直球コミュニケーション</strong>が増えています。特にIT業界や都市部の若い層では、「面子より効率」の傾向があります。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ 外国人へのアドバイス</div><p>中国人と付き合う時は<strong>「面子を与える」</strong>ことを意識してください：<br>•  public で批判しない<br>• 褒められたら軽く謙遜する（「哪里哪里」）<br>• 食事に誘われたら必ずお礼の返事を忘れない<br>• 紹介された人は名前で覚えておく（名前を覚えている＝大切に思っている証拠）</p></div>
+</section>
+<section class="card c-green" id="c6">
+  <div class="unit-header"><span class="unit-num">Chapter 6</span><span class="unit-title">贈り物の文化<span class="zh-sub">送礼文化</span></span></div>
+  <div class="tip">中国人は贈り物を<strong>謙遜して断る</strong>のが普通。三度断って最後に受け取ることもあります。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：喜ばれる贈り物</div><p><strong>定番の贈り物：</strong><br>• 果物（季節のもの）— 特にりんご（平安）、オレンジ（大吉）<br>• お茶（高級茶葉）— 龙井茶、普洱茶は高評価<br>• 酒 — 茅台（茅台酒）が最高級品。ビールでも王老吉などの飲料もOK<br>• 紅包（現金）— 最も実用的で感謝の表し方<br>• 健康食品 — ギンネム、クコの実、栄養補助剤</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：避けるべき贈り物</div><p><strong>タブーリスト：</strong><br>❌ 時計（钟表）→ 「送钟」は「终」（終わり）と同音<br>❌ 傘（伞）→ 「散」（別れ・解散）と同音<br>❌ 鏡 → 魔除けにならない、縁起が悪い<br>❌ 白い花 → 葬儀専用<br>❌ 青い帽子 → 妻の浮気（绿帽子＝寝取られ）<br>❌ ナイフ・ハサミ → 縁切りを意味する<br>❌ 靴（鞋）→ 「邪」（悪）と同音</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：红包（ホンバオ）の金額相場</div><p>現金祝儀の一般的な相場：<br><br><table><tr><th>場面</th><th>金額（元）</th></tr><tr><td>子供の誕生日</td><td>100〜500</td></tr><tr><td>結婚式（友人）</td><td>500〜1000</td></tr><tr><td>結婚式（親族）</td><td>1000〜5000+</td></tr><tr><td>春節（子供へ）</td><td>100〜1000</td></tr><tr><td>お見舞い</td><td>200〜800</td></tr></table><br><strong>縁の良い数字</strong>：6（流れる）、8（豊か）、9（長寿）。反対に4（死）は避ける。例：666元、888元、168元（一路発＝道中成功）は喜ばれます。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ 受け取り方のマナー</div><p>贈り物を受け取る時は<strong>両手</strong>で受け、「不用了」（要りません）と軽く断ってから受けます。相手が去った後に<strong>開けない</strong>のがマナーです。すぐ開けると「中身をチェックしている」ように見えます。<br><br>ただし、近年の都市部では<strong>「当面を開けてみる」</strong>ことも増えています。年配者とのやり取りでは依然として旧慣に従うのが安全です。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：贈り物を前に丁寧に開けない（箱入り）<br>🇨🇳 中国：軽く断ってから受け取り、後で開ける<br><br>日本の「包み・贈呈」文化に比べ、中国は<strong>「紅包（現金）」</strong>を最も実用的で感謝の表し方とします。結婚式の祝金や子供の誕生祝いでは、現金が圧倒的に一般的です。<br><br>また、日本では「義理チョコ」がありますが、中国には<strong>「礼尚往来」（れいじょうおうらい）</strong>の概念があります。贈り物は必ず返しが必要です。「借りを作る」ことは社交の基本です。</p></div>
+</section>
+<section class="card c-purple" id="c7">
+  <div class="unit-header"><span class="unit-num">Chapter 7</span><span class="unit-title">数字と色の迷信<span class="zh-sub">数字与颜色的迷信</span></span></div>
+  <div class="tip">数詞の後には必ず量詞を付ける。「两」は数量が二つの場合に使う。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：吉凶の数字</div><p>中国語では<strong>発音の類似性</strong>によって数字の吉凶が決まります：<br><br>🎉 <strong>八（bā）</strong> → 「发」（豊かになる）と同音 → <strong>大吉</strong><br>🎉 <strong>六（liù）</strong> → 「流」（スムーズ）と同音 → <strong>吉</strong><br>🎉 <strong>九（jiǔ）</strong> → 「久」（永続）と同音 → <strong>長寿・永遠</strong><br>🎉 <strong>三（sān）</strong> → 「生」（生きる）に連想 → <strong>生命力</strong><br>❌ <strong>四（sì）</strong> → 「死」（死ぬ）と同音 → <strong>凶</strong><br><br>多くのビルでは<strong>4階が存在しない</strong>（3階の次に14階）。車のナンバープレートで「88888」は数百万円で取引されます。電話番号でも縁の良い数字は高値で売られます。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：色の象徴</div><p><strong>赤（红 hóng）</strong> → 幸運・繁栄・結婚・春節<br><strong>黄（huáng）</strong> → 皇帝・権力・富（古代中国の最高色）<br><strong>白（bái）</strong> → 喪・悲しみ（葬儀の色）<br><strong>緑（lǜ）帽子</strong> → 妻の浮気（「绿帽子」＝寝取られ）<br><strong>金（jīn）</strong> → 财富・ビジネス成功<br><strong>黒（hēi）</strong> → 公式・厳粛（裁判服など）</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：白＝純潔（婚礼）、紅白＝祝事<br>🇨🇳 中国：白＝喪（葬儀）、赤＝祝（婚礼）<br><br>色の意味が<strong>正反対</strong>になるケースがあります。日本から来た人が白い服で結婚式に参加すると大変なことになります。逆に、中国では結婚式で<strong>全身赤</strong>にするのが伝統的です。<br><br>また、日本では「青」は若さや新鮮さを表しますが、中国では<strong>「青い帽子」</strong>という特殊な意味を持ちます。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ ビジネスカラー</div><p>中国でのビジネスシーンでは<strong>黒・紺・灰</strong>が無難です。赤はカジュアルすぎる場合が多く、白は葬儀を連想させるため避けます。<br><br>ただし、近年のIT業界やスタートアップではカジュアル化が進んでおり、<strong>「ラウンディ」（蓝白色Tシャツ）</strong>が標準装備の企業もあります。</p></div>
+</section>
+<section class="card c-orange" id="c8">
+  <div class="unit-header"><span class="unit-num">Chapter 8</span><span class="unit-title">ボディランゲージ<span class="zh-sub">肢体语言</span></span></div>
+  <div class="tip">中国人のジェスチャーは比較的ダイナミック。表情豊かで感情的な表現が多い。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：代表的なジェスチャー</div><p><strong>① 拇指竖起（親指を立てる）</strong> → 「よい！」「すごい！」<br><strong>② 食指弯曲（人差し指を曲げる）</strong> → 「ちょっと待って」<br><strong>③ 手掌を下に向ける（手をパタパタ）</strong> → 「来てきて！」（日本とは逆向き）<br><strong>④ 拳を握って突き出す</strong> → 「干杯！」<br><strong>⑤ 指で自分のおでこを叩く</strong> → 「恥ずかしい／照れる」（日本の「脸红」に相当）</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：伝統的な拱手礼（がっしゅれい）</div><p>中国には<strong>拱手礼（gǒngshǒulǐ）</strong>という伝統的な挨拶があります。<br><br>• 両手の拳を組み、右手を外側にする（男性）<br>• 左手を外側にする（女性）<br>• 少し体を前に傾ける<br><br>これは<strong>春節や結婚式</strong>などで使われる伝統的な挨拶で、握手の代わりに使われます。外国人がやっても嫌がる人はいません。むしろ喜ばれます。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ やってはいけないジェスチャー</div><p><strong>① 中指を立てる</strong> → 世界中で失礼（中国でも同じ）<br><strong>② 頭を撫でる</strong> → 子供に対してのみOK。大人にすると侮辱<br><strong>③ 足で物を指す</strong> → 最も無礼な指し方<br><strong>④ 人差し指で人を指す</strong> → 相手に向かって指さすのは失礼。全体の手掌で示す<br><strong>⑤ 食べ物の箸を垂直に立てる</strong> → 葬儀を連想させる</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：ジェスチャーは控えめ・静か<br>🇨🇳 中国：ジェスチャーは大きめ・感情的<br><br>日本人は「目を見て話す」ことを推奨されますが、中国では<strong>目線を落とす</strong>ことが敬意を表すこともあります。また、中国の会話では<strong>身体的距離が近い</strong>のが普通です。「 personal space 」の概念が日本ほど強くありません。</p></div>
+</section>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ 要注意ジェスチャー</div><p>
+    • 中指を立てるのは<strong>最大級の侮辱</strong>です。<br>
+    • 口元を隠して笑うのは「秘密がある」「照れている」の意味。<br>
+    • 頭を軽く叩く（子供に）→ 「いい子ね」の愛情表現ですが、外国人がやると失礼です。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：ジェスチャーは最小限・静かな表現<br>🇨🇳 中国：大げさな身振り手振りが普通<br><br>日本の「以心伝心」文化に比べ、中国は<strong>言葉＋ジェスチャーで意思疎通</strong>を図ります。レストランで注文する時も、店員に大きく手を振って呼び止めるのが一般的です。</p></div>
+</section>
+<section class="card c-teal" id="c9">
+  <div class="unit-header"><span class="unit-num">Chapter 9</span><span class="unit-title">お茶の文化<span class="zh-sub">茶文化</span></span></div>
+  <div class="tip">喝茶是日常社交活动。朋友来访，主人第一件事往往是泡茶。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：六大茶類と代表的な茶</div><p>中国には<strong>六大茶類</strong>があります。発酵度（酸化度）で分類されます：<br><br>• 绿茶（緑茶）→ 西湖龙井（杭州）、碧螺春（蘇州）… 非発酵、爽やか<br>• 白茶（白茶）→ 白毫銀針（福建）… 軽発酵、最も自然な製法<br>• 黄茶（黄茶）→ 君山銀針（湖南）… 微発酵、稀少で高価<br>• 乌龙茶（烏龍茶）→ 铁观音（福建）、大红袍（武夷山）… 半発酵、芳醇<br>• 红茶（紅茶）→ 祁门红茶（安徽）… 全発酵、西洋紅茶とは異なる<br>• 黑茶（黒茶）→ 普洱茶（雲南）… 後発酵、年数が経つほど価値が上がる</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：茶の作法とマナー</div><p><strong>① 叩桌礼（テーブルタップ感謝）</strong><br>他人にお茶を注いでもらった時、指でテーブルをトントンと叩いてお礼を表します。<br>• 平輩・友人 → 二本指（親指＋人差し指）で三回叩く<br>• 目上の人 → 五本の指で丸を作って一回軽く叩く（頭を下げる意味）<br><br><strong>② 七分茶（七分立て）</strong><br>「酒满敬人、茶满欺人」— お酒は満タンが丁寧ですが、お茶は<strong>七分目</strong>がマナー。「満杯にする＝相手を追い払いたい」と解釈されます。<br><br><strong>③ 凤凰三点头（鳳凰三度頭を垂れる）</strong><br>茶碗に湯を注ぐ際、ポットを上下に三度動かす技法。客人への敬意を表します。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：茶道＝儀式・精神修行・型重視<br>🇨🇳 中国：茶＝日常生活・社交の道具・会話重視<br><br>日本の茶道が「わび・さび」を重んじる静かな儀式であるのに対し、中国茶文化は<strong>「和気藹々とした交流」</strong>が中心です。<br><br>広東省の<strong>「早茶」（ヤムチャ）</strong>は朝から友人と集まり、点心とお茶を楽しむ一大文化。上海の<strong>「下午茶」（午後の茶）</strong>もビジネスミーティングとして定着しています。<br><br>また、日本では「一服する」ですが、中国では<strong>「来，喝杯茶！」</strong>（来て、一杯お茶でも！）が最大の歓迎表現です。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 実用的ヒント</div><p>中国のレストランや友人の家でお茶を出された時は、<strong>全部飲み干さなくてもOK</strong>です。むしろ少し残すと「もっと出して」という合図になります。また、空になったカップをそのままにしておくと店員が補充に来てくれます。冷蔵庫のお茶（瓶入りアイスティー）は便利ですが、<strong>友人宅では必ず淹れたてのお茶</strong>が出ます——ペットボトルはお辞儀です。</p></div>
+</section>
+<section class="card c-pink" id="c10">
+  <div class="unit-header"><span class="unit-num">Chapter 10</span><span class="unit-title">公共のマナー<span class="zh-sub">公共场合礼仪</span></span></div>
+  <div class="tip">中国人的公共行为正在快速现代化。大城市已接近国际水平。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：排队（列に並ぶ）文化の変化</div><p><strong>① 排队（パイドゥイ＝列に並ぶ）</strong><br>以前は「並ばない文化」がありましたが、近年急速に改善しました。地铁・银行・餐厅入口ではしっかり並びます。<br><br>ただし<strong>「插队」（チャードゥイ＝割り込み）</strong>は今でも見られます。日本なら激怒される行為ですが、中国では「仕方ない」と黙認される場合も。「插队的人不要脸」（割り込むのは面子がない）と言われるのが一般的です。<br><br><strong>② 高铁抢票（電車チケット奪い合い）</strong><br>春运期間には<strong>数億人</strong>が同時にチケットを購入します。アプリで「加速包」（優先購入権）を買う文化も生まれています。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：噪音（騒音）と公共空間</div><p>中国の公共空間では、日本のように<strong>「静粛に」</strong>という概念が必ずしも通用しません。<br><br>• 公園 → 老人たちが大声で歌う・ラジオを聴く・麻雀をする<br>• 食堂 → 会話の声が大きいのは「楽しい証拠」<br>• 地铁 → 通話禁止エリアが設けられるほど改善中<br><br>これは「個人主義 vs コミュニティ文化」の違いです。日本では<strong>「迷惑をかけない」</strong>ことが最優先ですが、中国では<strong>「楽しく過ごす」</strong>ことが重視されます。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 广场舞（グァンチャンウー＝広場ダンス）</div><p>中国の都市公園で毎晩見られる<strong>集団ダンス</strong>。主に中老年女性が参加し、音楽に合わせて踊ります。一説では<strong>数億人</strong>が参加していると言われ、中国政府も健康政策として推進しています。<br><br>日本人から見ると「大人数で一緒に踊る」ことに違和感がありますが、これは<strong>コミュニティの絆</strong>を深める重要な活動です。特に高齢者の孤独死防止にも役立っています。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">⚠️ 喫煙事情</div><p>北京・上海・深圳など大都市では<strong>室内禁煙</strong>が徹底されています。しかし中小城市や田舎ではまだ喫煙ルームが一般的です。レストランでも「吸ってもいいですか？」と聞くのが無難です。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：公共空間では「黙って並ぶ・静かにする」<br>🇨🇳 中国：公共空間でも「会話が自然・声が大きい」<br><br>🇯🇵 日本：エレベーター内で会話しない<br>🇨🇳 中国：エレベーター内で「どこ階？」「もう帰るの？」と気軽に会話<br><br>これは「空気を読む」文化の違いです。日本では<strong>「不気味な沈黙」</strong>がマナーですが、中国では<strong>「雑談の盛り上がり」</strong>が歓迎されます。</p></div>
+</section>
+<section class="card c-green" id="c11">
+  <div class="unit-header"><span class="unit-num">Chapter 11</span><span class="unit-title">健康と養生<span class="zh-sub">健康与养生</span></span></div>
+  <div class="tip">中医文化は日常生活に深く根付いています。「上火」などの概念は誰でも知っています。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：热水文化（お湯を飲む理由）</div><p>中国人は感冒・喉が痛い・生理痛・甚至「気分が重い」時に<strong>热水（re shui）</strong>を飲みます。日本では冷えた時に温かい飲み物を飲むことはありますが、中国では<strong>いつでも・どこでも</strong>熱湯または温水を飲みます。<br><br>なぜなら中医学では「寒邪（かんじゃ）」を避けるのが基本だからです。冷水を飲むと「体内の気の流れが悪くなる」と考えられます。レストランに来客があると必ず<strong>「来，喝点热水！」</strong>と言ってお茶ではなくお湯を出します。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：上火（シャンホオ／体内の熱）</div><p><strong>上火（shànghuǒ）</strong>は中国語で最もよく使われる健康概念の一つ。「体内に熱がこもっている状態」を意味します。<br><br>• 喉が痛い → 「上火した」<br>• 口内炎ができる → 「上火した」<br>• ニキビが出る → 「上火した」<br>• 便秘になる → 「上火した」<br>• 目が赤くなる → 「上火した」<br><br>この時は<strong>清火（せいか）</strong>の食品（绿豆汤・菊花茶・苦瓜など）を食べ、「热性（ねっせい）」の食べ物（フライドポテト・唐揚げ・スパイス料理）を控えます。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：阴与阳（インヤン）の食品分類</div><p>中国の食養生では全ての食材に<strong>阴阳（いんよう）</strong>の性質があります：<br><br>🔥 <strong>热性（陽）</strong> → トウガラシ・ニンニク・羊肉・エビ<br>❄️ <strong>寒性（陰）</strong> → スイカ・きゅうり・豆腐・蛤（はまぐり）<br>⚖️ <strong>平性（平和）</strong> → ご飯・豚肉・ジャガイモ<br><br>「寒性の食べ過ぎには生姜を添える」「熱性の時には苦瓜を食べる」といった組み合わせが日常にあります。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 药食同源（ヤオショクドウゲン）</div><p>中国では「薬＝食べ物」という考え方が根深いです。スーパーに行けば漢方食材が並んでいます：<br>• 生姜（しょうが）→ 風邪の初期症状に<br>• 枸杞（くこのみ）→ 目の疲れ・老化防止<br>• 红枣（なつめ）→ 貧血予防・元気回復<br>• 莲子（はすの実）→ 安眠・ストレス緩和<br>• 山药（やまいも）→ 胃腸強化<br><br>家庭でお粥（コンジキ）を作る時、これらの食材を入れるのはごく普通の光景です。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：漢方薬＝薬局で買う専門品・医療寄り<br>🇨🇳 中国：漢方食材＝スーパーで買う日常品・食事の一部<br><br>日本の「生薬」文化は医療寄せていますが、中国の「食疗（しょくりょう）」は<strong>毎日の食事そのもの</strong>に組み込まれています。家族間で「あなたは上火してるから○○を食べなさい」とアドバイスするのが日常です。<br><br>また、日本では「スポーツドリンク」ですが、中国では<strong>「电解质水」（電解質飲料）</strong>や「凉茶（涼茶）」が日常的です。</p></div>
+</section>
+<section class="card c-purple" id="c12">
+  <div class="unit-header"><span class="unit-num">Chapter 12</span><span class="unit-title">職場のルール<span class="zh-sub">职场规则</span></span></div>
+  <div class="tip">仕事や能力に関連する単語。中国社会では呼称と序列が重要です。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：师傅（シーフー）万能称呼</div><p><strong>师傅（shīfu）</strong>は中国語で最も万能な敬称の一つ。<br><br>• タクシードライバー → 「师傅，去人民广场」<br>• 工場の職人 → 「王师傅」<br>• 食堂のおばちゃん → 「阿姨」or「师傅」<br>• 先生（学校）→ 「老师」<br><br>初めて会う中年の人に対して「师傅」と呼べばまず間違いません。日本の「さん」に近い感覚ですが、<strong>職業を問わない</strong>ところが特徴です。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：老板（ラオバン／社長）文化</div><p><strong>老板（lǎobǎn）</strong>は「社長・オーナー」の意味ですが、小店の店長やプロジェクト責任者にも使います。<br><br>• 餐馆の店主 → 「老板，来两碗面！」<br>• IT企業のCEO → 「李老板」<br>• フリーランス → 「自己当老板」<br><br>日本での「社長」「部長」と階層的な呼び方とは違い、中国では<strong>「谁出钱就是老板」</strong>（誰が出資したかが老板）という実利的な概念があります。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：关系（ネットワーク）の力</div><p>中国の職場では<strong>「谁认识谁」</strong>が非常に重要です。同じ大学出身者（同学）、同じ郷出身者（老乡）、昔からの友人（朋友）のネットワークが<strong>キャリア形成</strong>に大きな影響を与えます。<br><br>これは単なる「コネ採用」ではなく、信頼できる人を介することで<strong>リスクを減らす</strong>という合理的な判断でもあります。「知人の紹介」は履歴書より信頼される世界です。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 加班（ジャーバン＝残業）文化</div><p>中国のIT企業を中心に<strong>「996」</strong>（9時出勤・22時退勤・週6日勤務）が問題になっています。政府は2021年に996を違法化しましたが、実態はなお残っています。<br><br>一方、国有企業や政府機関では<strong>「铁饭碗」（てつやかま）</strong>と呼ばれる安定した雇用が人気。民間企業より給料は低いですが、解雇リスクがありません。<br><br>また、<strong>酒桌文化（しゅたくぶんか）</strong>——取引先の接待で酒を飲むことが<strong>信頼構築</strong>の一部です。日本でも行われますが、中国の方が<strong>強制力が強い</strong>傾向があります。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との違い</div><p>🇯🇵 日本：年功序列・終身雇用・堅実な昇進<br>🇨🇳 中国：実力主義・転職頻度が高い・急成長<br><br>日本の「一生一つの会社」文化に比べ、中国は<strong>「3年ごとに転職する」</strong>のが普通です。特にIT業界では若手が次々と新しい企業へ移動し、スキルと給与を上げていきます。<br><br>また、中国では<strong>「老板」（ラオバン／社長）</strong>という呼び方も一般的。上司だけでなく、小店のオーナーにも使います。</p></div>
+</section>
+<section class="card c-blue" id="c13">
+  <div class="unit-header"><span class="unit-num">Chapter 13</span><span class="unit-title">社会心理：氛围感 vs 反内耗<span class="zh-sub">社会心理：读空气 vs 不内耗</span></span></div>
+  <div class="tip">このチャプターはHSK単語には直接関係ありませんが、中国人の心構えを理解するのに最も重要です。</div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：内耗（ネイハオ）とは</div><p><strong>内耗（nèihào）</strong>は最近の中国で最もよく使われる言葉の一つです。「内部での消耗」という意味で、<strong>他人の評価を気にして自分の本心を押し殺すこと</strong>を指します。<br><br>• 「会议で反対意見があるのに、空気が読めなくて言えない」→ 内耗<br>• 「この服似合わないけど、みんな褒めてるから自分も…」→ 内耗<br>• 「残業したいくないけど、誰も先に帰らないから一緒にいる」→ 内耗<br><br>中国政府やメディアは<strong>「拒绝内耗」</strong>（内耗を拒否せよ）というスローガンを掲げ、若者に<strong>「自分の気持ちを素直に出せ」</strong>と呼びかけています。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：中国的「直率」文化</div><p>中国社会は一般的に<strong>日本的よりも直接的</strong>です。これは悪い意味ではなく、以下のような背景があります：<br><br>① <strong>人口密度の高さ</strong>— 14億人が暮らす国では、空気を読むより<strong>はっきり言った方が効率的</strong><br>② <strong>多様な地域性</strong>— 北京人・広東人・四川人で価値観が違うため、「共通の空気」を作るのが難しい<br>③ <strong>実利志向</strong>— 「谁行谁上」（できる人が上がる）という実力主義が根強い<br><br>例えば、中国のレストランでは店員に対して<strong>大声で呼び止める</strong>のが普通です。日本では「失礼」と思われますが、中国では<strong>「サービス要求の正当な表現」</strong>と見なされます。</p></div>
+  <div class="cn-box"><div class="cn-box-title">🧧 ★豆知識：面子の裏側——「不在乎别人的眼光」</div><p>一見矛盾するように聞こえるかもしれませんが、中国では<strong>「面子（体面）」</strong>を気にしながらも、同時に<strong>「不在乎别人的眼光」</strong>（他人の目を気にしない）という考え方が共存しています。<br><br>• 結婚式では派手な服装をする（面子）<br>• でも路上で大声で歌うのも平気（不在乎）<br>• 職場では敬語を使う（面子）<br>• でも同じ部屋で靴を脱ぐ人も気にしない（不在乎）<br><br>この二重構造が<strong>中国文化の面白い点</strong>です。「格式（体裁）」と「随意（気軽さ）」が場によって使い分けられています。</p></div>
+  <div class="jp-box"><div class="jp-box-title">🇯🇵 日本との決定的な違い</div><p>🇯🇵 <strong>空気を読む（ky）文化</strong><br>• 「以和为贵」— 調和が最優先<br>• 本音と建前 — 表面は丁寧に、内心は別<br>• 「出る杭は打たれる」— 集団への同調圧力が強い<br>• 内面的なストレス（うつ病・ひきこもり）が社会問題<br><br>🇨🇳 <strong>直球コミュニケーション文化</strong><br>• 「有话直说」— 思ったことは言う<br>• 面子はあるが、本音も出す<br>• 「卷」（巻き競争）は激しいが、空気は読まない<br>• 表面的にはオープンだが、根底には実利的計算がある<br><br><strong>重要：</strong>これは「どちらが良い/悪い」の問題ではありません。日本は<strong>「個人のメンタルヘルスを重視した調整メカニズム」</strong>を発達させ、中国は<strong>「集団の効率を重視したダイレクトさ」</strong>を発達させたと言えます。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 留学生・旅行者へのアドバイス</div><p>日本から中国に来た人が最初に驚くポイント：<br><br>❌ <strong>「もっと空気を読め！」</strong> → 中国では通用しません。はっきり言いましょう。<br>✅ <strong>「我不太喜欢…」</strong> （あまり好きじゃない…） → 普通に通じます。<br>❌ <strong>「みんなと同じにしよう」</strong> → 中国では<strong>個性を出す方が評価される</strong>場合が多いです。<br>✅ <strong>「我觉得…」</strong> （私はこう思う…） → あなたの意見をどんどん述べてください。<br><br>ただし、<strong>年配者や目上の人</strong>に対しては依然として敬意を示す必要があります。「直率＝無礼」ではないのです。場面に応じた使い分けが重要です。</p></div>
+  <div class="trivia-box"><div class="trivia-box-title">★ 近年のトレンド：反内耗運動</div><p>2020年代の中国若者の間で広がっている概念：<br><br>• <strong>「躺平」（たんぴん＝横になる）</strong>— 過剰な競争を拒否し、最低限の生活で満足する<br>• <strong>「摆烂」（ばいらん＝ぶっつぶす）</strong>— もうどうでも良くなって全部放り投げる<br>• <strong>「佛系」（ぶつけい＝仏様スタイル）</strong>— 何でもかんでも「いいじゃん」と流す<br><br>これらの言葉は<strong>日本の「悟り世代」や「平成おじさん」に通じる感覚</strong>ですが、中国版の特徴は<strong>「ネットスラングとして即座に拡散される速さ」</strong>です。Twitter(X)ではなくWeiboやDouyin（TikTok）でバズります。</p></div>
+</section>
+</section>
+</main>
+<script>
+(function(){
+  var fab=document.getElementById('tocFab'),backdrop=document.getElementById('tocBackdrop'),
+      sidebar=document.getElementById('sidebar'),closeBtn=document.getElementById('tocClose');
+  function openToc(){document.body.classList.add('toc-open')}
+  function closeToc(){document.body.classList.remove('toc-open')}
+  if(fab)fab.addEventListener('click',openToc);
+  if(backdrop)backdrop.addEventListener('click',closeToc);
+  if(closeBtn)closeBtn.addEventListener('click',closeToc);
+  document.querySelectorAll('.toc-item').forEach(function(a){
+    a.addEventListener('click',function(){closeToc()});
+  });
+  // Active link highlighting on scroll
+  var items=document.querySelectorAll('.toc-item'),cards=[];
+  items.forEach(function(a){var t=document.getElementById(a.getAttribute('href').slice(1));if(t)cards.push({el:t,link:a})});
+  window.addEventListener('scroll',function(){
+    var top=window.scrollY+180,best=null;
+    cards.forEach(function(c){if(c.el.offsetTop<=top)best=c});
+    items.forEach(function(i){i.classList.remove('active')});
+    if(best)best.link.classList.add('active');
+  },{passive:true});
+})();
+</script>
+</body>
+</html>

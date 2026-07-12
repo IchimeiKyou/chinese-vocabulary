@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>Unit 00 速览 — 設計サンプル</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --bg: #f4f6fb; --surface: #ffffff; --sidebar-bg: #1e2235; --primary: #d4836a; --text: #1e1e2e; --muted: #6b7280; --border: #e5e7eb; --radius: 12px; --shadow: 0 2px 14px rgba(0,0,0,.08); }
+  body { font-family: "Segoe UI","Hiragino Sans","Yu Gothic","Microsoft YaHei",sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; padding: 2rem; max-width: 920px; margin: 0 auto; }
+  h2 { margin: 2rem 0 1rem; border-bottom: 2px solid #c9a98e; padding-bottom: .3rem; }
+  .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.6rem 1.8rem; margin-bottom: 2rem; border-top: 4px solid var(--primary); }
+  .card.c-gold { border-top-color: #c9a98e; background: linear-gradient(135deg, #fafaf7 0%, #f5f2ed 100%); }
+  .unit-header { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; margin-bottom: .8rem; }
+  .unit-num { font-size: .72rem; font-weight: 800; background: var(--bg); color: var(--muted); border-radius: 6px; padding: .12rem .5rem; }
+  .unit-title { font-size: 1.05rem; font-weight: 800; }
+  .unit-title .zh-sub { font-size: .88rem; color: #b88d6e; font-weight: 700; margin-left: .3rem; }
+  .tip { background: #f7f4ed; border: 1px solid #e2d5c8; border-radius: 8px; padding: .55rem 1rem; font-size: .86rem; color: #6b5840; margin-bottom: .8rem; }
+  .tip::before { content: "💡 "; }
+
+  /* === NEW: Quick Review Styles === */
+  .review-grid { display: flex; flex-direction: column; gap: .75rem; }
+  .review-block { background: #fcfcf9; border: 1px solid #e6dfd6; border-radius: 10px; padding: .6rem .8rem; }
+  .review-block-title { font-size: .8rem; font-weight: 800; color: #8b7a6a; margin-bottom: .3rem; display: flex; align-items: baseline; gap: .4rem; }
+  .review-unit { font-size: .68rem; font-weight: 400; color: var(--muted); }
+  .review-row { font-size: .82rem; line-height: 1.65; color: #444; }
+  .review-row .review-zh { color: #c0392b; font-weight: 700; }
+  .review-row + .review-row { margin-top: .1rem; }
+
+  .review-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  .review-table th { background: #2c2e3e; color: #d5cdc0; padding: .35rem .5rem; text-align: left; font-size: .72rem; font-weight: 700; }
+  .review-table td { padding: .3rem .5rem; border-bottom: 1px solid #eee; }
+  .review-table tr:nth-child(even) td { background: #f9f7f4; }
+  .wrap-table { overflow-x: auto; }
+
+  .review-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .review-mini { background: #fcfcf9; border: 1px solid #e6dfd6; border-radius: 8px; padding: .4rem .65rem; font-size: .8rem; line-height: 1.5; color: #444; }
+  .review-mini strong { color: #c0392b; font-size: .82rem; }
+  @media (max-width: 600px) { .review-grid-2col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h2>⭐ Unit 00 · 総単語一覧 <span style="font-size:.9rem;color:var(--muted);font-weight:400;">（vocab版）</span></h2>
+<div class="card c-gold" id="u0">
+  <div class="unit-header">
+    <span class="unit-num">Unit 00</span>
+    <span class="unit-title">⭐ 総単語一覧 — 全セクションを俯瞰<span class="zh-sub">zǒng cíhuì yīlǎn</span></span>
+  </div>
+  <div class="tip" style="border-left-color:#f5b041;">各セクションから最重要語を抜粋。詳細は対応 Unit へ。</div>
+  <div class="review-grid">
+    <div class="review-block">
+      <div class="review-block-title">Ⅰ · 入門基礎 <span class="review-unit">(U1–U4)</span></div>
+      <div class="review-row"><span class="review-zh">我</span> wǒ · <span class="review-zh">你</span> nǐ · <span class="review-zh">好</span> hǎo · <span class="review-zh">是</span> shì · <span class="review-zh">什么</span> shénme</div>
+    </div>
+    <div class="review-block">
+      <div class="review-block-title">Ⅱ · 時間と数量 <span class="review-unit">(U5–U7)</span></div>
+      <div class="review-row"><span class="review-zh">现在</span> xiànzài · <span class="review-zh">天</span> tiān · <span class="review-zh">点</span> diǎn · <span class="review-zh">个</span> gè · <span class="review-zh">很</span> hěn</div>
+    </div>
+    <div class="review-block">
+      <div class="review-block-title">Ⅲ · 場所と移動 <span class="review-unit">(U8–U10)</span></div>
+      <div class="review-row"><span class="review-zh">哪儿</span> nǎr · <span class="review-zh">里</span> lǐ · <span class="review-zh">上</span> shàng · <span class="review-zh">下</span> xià · <span class="review-zh">去</span> qù</div>
+    </div>
+    <div class="review-block">
+      <div class="review-block-title">Ⅳ · 飲食と買い物 <span class="review-unit">(U11–U15)</span></div>
+      <div class="review-row"><span class="review-zh">吃</span> chī · <span class="review-zh">喝</span> hē · <span class="review-zh">大</span> dà · <span class="review-zh">小</span> xiǎo · <span class="review-zh">多少</span> duōshǎo</div>
+    </div>
+    <div class="review-block">
+      <div class="review-block-title">Ⅴ · 動詞・行為 <span class="review-unit">(U16–U17)</span></div>
+      <div class="review-row"><span class="review-zh">做</span> zuò · <span class="review-zh">看</span> kàn · <span class="review-zh">有</span> yǒu · <span class="review-zh">在</span> zài · <span class="review-zh">想</span> xiǎng</div>
+    </div>
+    <div class="review-block">
+      <div class="review-block-title">Ⅵ · 形容と接続 <span class="review-unit">(U18–U19)</span></div>
+      <div class="review-row"><span class="review-zh">好</span> hǎo · <span class="review-zh">多</span> duō · <span class="review-zh">少</span> shǎo · <span class="review-zh">和</span> hé · <span class="review-zh">但是</span> dànshì</div>
+    </div>
+    <!-- Ⅶ–Ⅹ も同様に -->
+  </div>
+</div>
+
+<h2>⭐ Unit 00 · 文法一覧 <span style="font-size:.9rem;color:var(--muted);font-weight:400;">（grammar版）</span></h2>
+<div class="card c-gold" id="u0">
+  <div class="unit-header">
+    <span class="unit-num">Unit 00</span>
+    <span class="unit-title">⭐ 文法一覧 — 全ルールを一表に<span class="zh-sub">yǔfǎ yīlǎn</span></span>
+  </div>
+  <div class="tip" style="border-left-color:#c9a98e;">初級文法25項目を俯瞰。試験前・復習時に最適。</div>
+  <div class="wrap-table">
+    <table class="review-table">
+      <tr><th style="width:5%">#</th><th style="width:14%">ルール</th><th style="width:18%">例文</th><th>ポイント</th></tr>
+      <tr><td>U01</td><td>声調</td><td>mā/má/mǎ/mà</td><td>四声で意味が変わる</td></tr>
+      <tr><td>U02</td><td>漢字</td><td>我／你／好</td><td>字形＋ピンインで暗記</td></tr>
+      <tr><td>U03</td><td>SVO語順</td><td>我爱你</td><td>主＋動＋目的</td></tr>
+      <tr><td>U04</td><td>「是」の文</td><td>我是学生</td><td>A＝B の関係</td></tr>
+      <tr><td>U05</td><td>否定・疑問</td><td>不是／好吗？</td><td>不＋動詞／吗</td></tr>
+      <tr><td>U06</td><td>形容詞述語</td><td>很好</td><td>是不要、副詞＋形容詞</td></tr>
+      <tr><td>U07</td><td>数字・量詞</td><td>一个／两个</td><td>数＋量＋名</td></tr>
+      <tr><td>U08</td><td>代名詞</td><td>我／你／他／这／那</td><td>シンプルな体系</td></tr>
+      <!-- ... 全25項目 -->
+      <tr><td colspan="4" style="text-align:center;color:var(--muted);font-size:.75rem;">全25ルール — 詳細は各Unitへ</td></tr>
+    </table>
+  </div>
+</div>
+
+<h2>⭐ Chapter 0 · 文化トピック一覧 <span style="font-size:.9rem;color:var(--muted);font-weight:400;">（culture版）</span></h2>
+<div class="card c-gold" id="c0">
+  <div class="unit-header">
+    <span class="unit-num">Chapter 0</span>
+    <span class="unit-title">⭐ 中国文化トピック一覧<span class="zh-sub">wénhuà yīlǎn</span></span>
+  </div>
+  <div class="review-grid-2col">
+    <div class="review-mini"><strong>C1</strong> 挨拶と呼び方 — 「吃了吗？」は社交辞令、WeChat交換が現代の名刺代わり</div>
+    <div class="review-mini"><strong>C2</strong> 食文化 — 円卓・取り分け・乾杯、魚の向きに注意</div>
+    <div class="review-mini"><strong>C3</strong> 家族呼称 — 叔叔/阿姨は血縁でなくてもOK、「老师」が万能敬称</div>
+    <div class="review-mini"><strong>C4</strong> 伝統祭り — 春節・中秋・端午、月餅と粽</div>
+    <div class="review-mini"><strong>C5</strong> 面子と人情 — 直接「NO」と言わない、关系が社会の血液</div>
+    <div class="review-mini"><strong>C6</strong> 贈り物 — 時計・傘・靴はNG、紅包の金額相場</div>
+    <div class="review-mini"><strong>C7</strong> 数字と色 — 4＝死、8＝豊か、赤＝吉、白＝弔</div>
+    <div class="review-mini"><strong>C8</strong> ボディランゲージ — 指差しは避ける、拍手は感謝の意</div>
+    <div class="review-mini"><strong>C9</strong> お茶文化 — 茶器で指トントン＝謝謝の代わり</div>
+    <div class="review-mini"><strong>C10</strong> 公共マナー — 割り勘は稀、割り込みは普通？</div>
+    <div class="review-mini"><strong>C11</strong> 健康と養生 — 中医・薬膳・白湯信仰</div>
+    <div class="review-mini"><strong>C12</strong> 職場ルール — 飲みニケーション、酒の強要に注意</div>
+    <div class="review-mini"><strong>C13</strong> 社会心理 — 氛围感 vs 反内耗、若者の価値観変容</div>
+  </div>
+</div>
+
+</body>
+</html>
